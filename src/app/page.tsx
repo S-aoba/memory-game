@@ -61,46 +61,4 @@ const cardList: CardType[] = [
     id: 5,
     mark: 'spade',
   },
-  {
-    id: 1,
-    mark: 'diamond',
-  },
-  {
-    id: 2,
-    mark: 'diamond',
-  },
-  {
-    id: 3,
-    mark: 'diamond',
-  },
-  {
-    id: 4,
-    mark: 'diamond',
-  },
-
-  {
-    id: 5,
-    mark: 'diamond',
-  },
-  {
-    id: 1,
-    mark: 'club',
-  },
-  {
-    id: 2,
-    mark: 'club',
-  },
-  {
-    id: 3,
-    mark: 'club',
-  },
-  {
-    id: 4,
-    mark: 'club',
-  },
-
-  {
-    id: 5,
-    mark: 'club',
-  },
 ]
