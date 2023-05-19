@@ -9,7 +9,8 @@ export const toggleCardStatusAtom = atom(
     set(cardListAtom, (prev) => {
       prev.map((card) => {
         if (card.id === update.id && card.mark === update.mark) {
-          card.status = card.status === 'open' ? 'close' : 'open'
+          // 一度開いたものは閉じれない
+          card.status = 'open'
         }
         return card
       })
