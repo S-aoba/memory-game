@@ -1,23 +1,15 @@
 'use client'
 
+import { CardType } from '@/common/type'
 import { IconClubs, IconDiamond, IconHeart, IconSpade } from '@tabler/icons-react'
 import { NextPage } from 'next'
-import { Dispatch, SetStateAction } from 'react'
 
 /**
  * @package
  */
 
-type CardProps = {
-  id: number
-  mark: 'hart' | 'spade' | 'diamond' | 'club'
-  toggleIsFront: Dispatch<SetStateAction<boolean>>
-}
-
-export const FrontCard: NextPage<CardProps> = ({ id, mark, toggleIsFront }) => {
-  const handleToggle = () => {
-    toggleIsFront(false)
-  }
+export const FrontCard: NextPage<Omit<CardType, 'status'>> = ({ id, mark }) => {
+  const handleToggle = () => {}
   return (
     <div
       className='hover: col-span-1 h-36 w-20 rounded-lg bg-white p-2 outline-yellow-300 hover:cursor-pointer hover:outline hover:outline-4 hover:outline-offset-4'
