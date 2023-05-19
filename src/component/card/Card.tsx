@@ -2,21 +2,8 @@
 import { NextPage } from 'next'
 import { FrontCard } from './FrontCard'
 import { BackCard } from './BackCard'
-import { useState } from 'react'
+import { CardType } from '@/common/type'
 
-type CardProps = {
-  id: number
-  mark: 'hart' | 'spade' | 'diamond' | 'club'
-}
-export const Card: NextPage<CardProps> = ({ id, mark }) => {
-  const [isFront, toggleIsFront] = useState(false)
-  return (
-    <>
-      {isFront ? (
-        <FrontCard id={id} mark={mark} toggleIsFront={toggleIsFront} />
-      ) : (
-        <BackCard toggleIsFront={toggleIsFront} />
-      )}
-    </>
-  )
+export const Card: NextPage<CardType> = ({ id, mark, status }) => {
+  return <>{status === 'open' ? <FrontCard id={id} mark={mark} /> : <BackCard id={id} />}</>
 }
