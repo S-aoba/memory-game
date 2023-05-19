@@ -1,8 +1,8 @@
 'use client'
 
-import { toggleCardStatusAtom } from '@/atom'
+import { checkSelectedCardListAtom, deleteCardAtom, toggleCardStatusAtom } from '@/atom'
 import { CardType } from '@/common/type'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { NextPage } from 'next'
 
 /**
@@ -11,8 +11,17 @@ import { NextPage } from 'next'
 
 export const BackCard: NextPage<Omit<CardType, 'status'>> = ({ id, mark }) => {
   const toggleCardStatus = useSetAtom(toggleCardStatusAtom)
+  const [selectedCardList, checkSelectedCardList] = useAtom(checkSelectedCardListAtom)
+  const deleteCard = useSetAtom(deleteCardAtom)
   const handleToggle = () => {
     toggleCardStatus({ id, mark })
+    const isExist = checkSelectedCardList({ id, mark, status: 'open' })
+    if (isExist) {
+      // 1秒後に削除
+      setTimeout(() => {
+        deleteCard(selectedCardList[0].id, id)
+      }, 1000)
+    }
   }
   return (
     <div
