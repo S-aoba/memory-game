@@ -2,7 +2,7 @@
 
 import { useAtomValue } from 'jotai'
 import { Card } from './Card'
-import { cardListAtom } from '@/atom'
+import { cardListAtom } from '@/atom/cardAtom'
 
 export const CardList = () => {
   const cardList = useAtomValue(cardListAtom)
