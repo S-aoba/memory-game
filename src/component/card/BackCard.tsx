@@ -1,6 +1,12 @@
 'use client'
 
-import { checkSelectedCardListAtom, deleteCardAtom, toggleCardStatusAtom } from '@/atom'
+import {
+  checkSelectedCardListAtom,
+  deleteCardListAtom,
+  resetCardListAtom,
+  resetSelectedCardListAtom,
+  toggleCardStatusAtom,
+} from '@/atom'
 import { CardType } from '@/common/type'
 import { useAtom, useSetAtom } from 'jotai'
 import { NextPage } from 'next'
@@ -12,16 +18,37 @@ import { NextPage } from 'next'
 export const BackCard: NextPage<CardType> = ({ id, mark, status }) => {
   const toggleCardStatus = useSetAtom(toggleCardStatusAtom)
   const [selectedCardList, checkSelectedCardList] = useAtom(checkSelectedCardListAtom)
-  const deleteCard = useSetAtom(deleteCardAtom)
+  const resetSelectedCardList = useSetAtom(resetSelectedCardListAtom)
+  const deleteCard = useSetAtom(deleteCardListAtom)
+  const resetCard = useSetAtom(resetCardListAtom)
+
   const handleToggle = () => {
-    toggleCardStatus({ id, mark })
     const isExist = checkSelectedCardList({ id, mark, status: 'open' })
-    if (isExist) {
+    // selectedCardListがからの場合
+    if (selectedCardList.length === 0) {
+      toggleCardStatus({ id, mark })
+      return
+    }
+    // selectedCardListが1つの場合
+    else if (selectedCardList.length === 1) {
+      toggleCardStatus({ id, mark })
+
+      if (!isExist) {
+        // 1秒後にリセット
+        setTimeout(() => {
+          resetCard(selectedCardList[0].id, id)
+          resetSelectedCardList()
+        }, 1000)
+        return
+      }
       // 1秒後に削除
       setTimeout(() => {
         deleteCard(selectedCardList[0].id, id)
+        resetSelectedCardList()
       }, 1000)
+      return
     }
+    return
   }
   return (
     <>

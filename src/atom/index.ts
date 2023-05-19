@@ -20,7 +20,7 @@ export const toggleCardStatusAtom = atom(
   }
 )
 
-export const deleteCardAtom = atom(null, (_, set, target1: number, target2: number) => {
+export const deleteCardListAtom = atom(null, (_, set, target1: number, target2: number) => {
   set(cardListAtom, (prev) => {
     // target1とtarget2のidが一致した場合にはnullを入れる
     prev.map((card) => {
@@ -28,14 +28,26 @@ export const deleteCardAtom = atom(null, (_, set, target1: number, target2: numb
         card.status = null
       }
       return card
-    }
-    )
+    })
     const newCardList = [...prev]
     return newCardList
   })
 })
 
-const selectedCardListAtom = atom<CardType[]>([])
+export const resetCardListAtom = atom(null, (_, set, target1: number, target2: number) => {
+  set(cardListAtom, (prev) => {
+    prev.map((card) => {
+      if (card.id === target1 || card.id === target2) {
+        card.status = 'close'
+      }
+      return card
+    })
+    const newCardList = [...prev]
+    return newCardList
+  })
+})
+
+export const selectedCardListAtom = atom<CardType[]>([])
 
 export const checkSelectedCardListAtom = atom(
   (get) => get(selectedCardListAtom),
@@ -48,6 +60,10 @@ export const checkSelectedCardListAtom = atom(
       set(selectedCardListAtom, newCardList)
       return false
     }
-    return isExist
+    return true
   }
 )
+
+export const resetSelectedCardListAtom = atom(null, (_, set) => {
+  set(selectedCardListAtom, [])
+})

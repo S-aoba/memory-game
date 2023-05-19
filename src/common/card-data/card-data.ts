@@ -1,4 +1,8 @@
-import { CardType } from '../type/type'
+import { CardType } from '../type'
+
+/**
+ * @package
+ */
 
 export const cardListData: CardType[] = [
   {
