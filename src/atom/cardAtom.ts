@@ -2,6 +2,7 @@ import { CARD_LIST_DATA } from '@/common/card-data'
 import { CardType } from '@/common/type'
 import { Status } from '@/common/type/type'
 import { atom } from 'jotai'
+import { userCardListAtom } from './userAtom'
 
 // Card
 export const cardListAtom = atom<CardType[]>(CARD_LIST_DATA)
@@ -79,7 +80,12 @@ export const selectAndCheckCardAtom = atom(null, (get, set, selectedCard: CardTy
       }
       return card
     })
+
     set(selectedCardListAtom, [])
     set(cardListAtom, newCardList)
+
+    // ここで、userCardListAtomを更新する
+    const currentUserCardList = get(userCardListAtom)
+    set(userCardListAtom, [...currentUserCardList, [currentSelectedCardList[0], selectedCard]])
   }, 1000)
 })
