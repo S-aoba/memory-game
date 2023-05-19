@@ -10,7 +10,7 @@ export const UserCard = ({ card }: { card: CardType[] }) => {
   return (
     <div className='relative col-span-1 flex w-fit'>
       <Card id={card[0].id} mark={card[0].mark} />
-      <div className=' absolute left-12 z-10 h-36 w-20 rotate-12 rounded-lg bg-white p-2 shadow-md'>
+      <div className=' absolute left-14 z-10 h-36 w-20 rotate-6 rounded-lg bg-white p-2 shadow-md'>
         <div className='flex h-full w-full flex-col'>
           <div className=' flex justify-start'>
             {card[1].mark === 'hart' ? (
@@ -40,7 +40,7 @@ export const UserCard = ({ card }: { card: CardType[] }) => {
 
 const Card = ({ id, mark }: { id: number; mark: string }) => {
   return (
-    <div className=' absolute left-6 h-36 w-20 rounded-lg bg-white p-2 shadow-md'>
+    <div className=' absolute left-3 h-36 w-20 -rotate-6 rounded-lg bg-white p-2 shadow-md'>
       <div className='flex h-full w-full flex-col'>
         <div className=' flex justify-start'>
           {mark === 'hart' ? <span className='text-xl text-red-500'>{id}</span> : <span className='text-xl'>{id}</span>}
