@@ -43,7 +43,7 @@ export const BackCard: NextPage<CardType> = ({ id, mark, status }) => {
       }
       // 1秒後に削除
       setTimeout(() => {
-        deleteCard(selectedCardList[0].id, id)
+        deleteCard(selectedCardList[0], { id, mark, status })
         resetSelectedCardList()
       }, 1000)
       return

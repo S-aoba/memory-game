@@ -20,11 +20,14 @@ export const toggleCardStatusAtom = atom(
   }
 )
 
-export const deleteCardListAtom = atom(null, (_, set, target1: number, target2: number) => {
+export const deleteCardListAtom = atom(null, (_, set, target1: CardType, target2: CardType) => {
   set(cardListAtom, (prev) => {
     // target1とtarget2のidが一致した場合にはnullを入れる
     prev.map((card) => {
-      if (card.id === target1 || card.id === target2) {
+      if (
+        (card.id === target1.id && card.mark === target1.mark) ||
+        (card.id === target2.id && card.mark === target2.mark)
+      ) {
         card.status = null
       }
       return card
