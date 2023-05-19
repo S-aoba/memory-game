@@ -4,7 +4,7 @@ import { CardType } from '../type'
  * @package
  */
 
-export const cardListData: CardType[] = [
+export const CARD_LIST_DATA: CardType[] = [
   {
     id: 1,
     mark: 'hart',
