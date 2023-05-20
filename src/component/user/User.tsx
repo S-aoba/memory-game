@@ -1,6 +1,6 @@
 'use client'
 
-import { userCardListAtom } from '@/atom/userAtom'
+import { userAtom } from '@/atom/userAtom'
 import { UserCard } from '../card'
 import { useAtomValue } from 'jotai'
 
@@ -9,7 +9,7 @@ import { useAtomValue } from 'jotai'
  */
 
 export const User = () => {
-  const userCardList = useAtomValue(userCardListAtom)
+  const user = useAtomValue(userAtom)
 
   return (
     <div className=' h-full max-h-[800px] w-11/12 max-w-[600px] border border-solid'>
@@ -17,10 +17,10 @@ export const User = () => {
         <p className=' text-5xl'>Your</p>
       </div>
       <div className=' h-3/4 py-4'>
-        {userCardList.length >= 1 ? (
+        {user.cardList.length >= 1 ? (
           <div className=' grid h-full w-full grid-cols-4 gap-y-10'>
-            {userCardList.map((card, index) => {
-              return <UserCard key={index} card={card } />
+            {user.cardList.map((card, index) => {
+              return <UserCard key={index} card={card} />
             })}
           </div>
         ) : (

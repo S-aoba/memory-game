@@ -49,7 +49,7 @@ export const useCard = (selectedCard: CardType) => {
       flipAndAdd(selectedCard)
       hideCard(selectedCard)
       setTimeout(() => {
-        addUserCardList(selectedCard)
+        addUserCardList()
         userGetCardAudio.play()
         resetSelectedCardList()
         return
