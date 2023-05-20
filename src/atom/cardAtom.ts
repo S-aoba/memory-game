@@ -3,20 +3,12 @@ import { CardType } from '@/common/type'
 import { Status } from '@/common/type/type'
 import { atom } from 'jotai'
 import { userCardListAtom } from './userAtom'
-import { useAudio } from '@/common/hook/useAudio'
 
-// Card
 export const cardListAtom = atom<CardType[]>(CARD_LIST_DATA)
 export const selectedCardListAtom = atom<CardType[]>([])
-const { userGetCardAudio, flipAudio } = useAudio()
 
+//  カードを裏返す処理
 export const flipCardAtom = atom(null, (get, set, selectCard: CardType) => {
-  const currentSelectedCardList = get(selectedCardListAtom)
-  // カードを２枚選択中であれば、それ以上は選択できないようにする
-  if (currentSelectedCardList.length === 2) {
-    return
-  }
-  //  カードを裏返す
   const newCardList = get(cardListAtom).map((card) => {
     if (card.id === selectCard.id && card.mark === selectCard.mark) {
       return {
@@ -31,68 +23,61 @@ export const flipCardAtom = atom(null, (get, set, selectCard: CardType) => {
 })
 
 // カードを選択したときの処理
-export const selectAndCheckCardAtom = atom(null, (get, set, selectedCard: CardType) => {
+export const addSelectedCardListAtom = atom(null, (get, set, selectedCard: CardType) => {
   const currentSelectedCardList = get(selectedCardListAtom)
-
-  // カードを２枚選択中であれば、それ以上は選択できないようにする
-  if (currentSelectedCardList.length === 2) {
-    return
-  }
-
-  flipAudio.play()
-
-  // カードがまだ選択されていない場合は、選択したカードをselectedCardListAtomに追加する
-  if (currentSelectedCardList.length === 0) {
-    const newSelectedCardList = [...currentSelectedCardList, selectedCard]
-    set(selectedCardListAtom, newSelectedCardList)
-    return
-  }
-  // カードが既に１枚選択されている場合は、選択したカードをselectedCardListAtomに追加する
   const newSelectedCardList = [...currentSelectedCardList, selectedCard]
   set(selectedCardListAtom, newSelectedCardList)
-  // カードが既に１枚選択されていれば、選択したカードと一致するかどうかを確認する
+})
+
+export const checkIsPairAtom = atom(null, (get, set, selectedCard: CardType) => {
+  const currentSelectedCardList = get(selectedCardListAtom)
   const isPear = currentSelectedCardList.some((card) => {
     return card.id === selectedCard.id
   })
-  // 一致していなければ1秒後にリセットする
-  if (!isPear) {
-    setTimeout(() => {
-      const newCardList = get(cardListAtom).map((card) => {
-        if (card.status === 'open') {
-          return {
-            ...card,
-            status: 'close' as Status,
-          }
-        }
-        return card
-      })
-      set(selectedCardListAtom, [])
-      set(cardListAtom, newCardList)
-    }, 1000)
-    return
-  }
-  // 一致していれば、1秒後に選択しているCardのstatusをnullにする
+  return isPear
+})
+
+export const resetSelectedCardListAtom = atom(null, (_, set) => {
+  set(selectedCardListAtom, [])
+})
+export const resetCardListAtom = atom(null, (get, set) => {
   setTimeout(() => {
-    const prevCard = currentSelectedCardList[0]
     const newCardList = get(cardListAtom).map((card) => {
-      if (
-        (card.id === selectedCard.id && card.mark === selectedCard.mark) ||
-        (card.id === prevCard.id && card.mark === prevCard.mark)
-      ) {
+      if (card.status === 'open') {
         return {
           ...card,
-          status: null,
+          status: 'close' as Status,
         }
       }
       return card
     })
-
-    set(selectedCardListAtom, [])
     set(cardListAtom, newCardList)
-
-    // ここで、userCardListAtomを更新する
-    const currentUserCardList = get(userCardListAtom)
-    set(userCardListAtom, [...currentUserCardList, [currentSelectedCardList[0], selectedCard]])
-    userGetCardAudio.play()
   }, 1000)
+})
+
+export const hideCardAtom = atom(null, (get, set, selectedCard: CardType) => {
+  setTimeout(() => {
+    const currentSelectedCardList = get(selectedCardListAtom)
+    const firstCard = currentSelectedCardList[0]
+    const secondCard = selectedCard
+    const newCardList = get(cardListAtom).map((prevCard) => {
+      if (
+        (prevCard.id === secondCard.id && prevCard.mark === secondCard.mark) ||
+        (prevCard.id === firstCard.id && prevCard.mark === firstCard.mark)
+      ) {
+        return {
+          ...prevCard,
+          status: null,
+        }
+      }
+      return prevCard
+    })
+    set(cardListAtom, newCardList)
+  }, 1000)
+})
+
+export const addUserCardListAtom = atom(null, (get, set, selectedCard: CardType) => {
+  const currentUserCardList = get(userCardListAtom)
+  const currentSelectedCardList = get(selectedCardListAtom)
+  set(userCardListAtom, [...currentUserCardList, [currentSelectedCardList[0], selectedCard]])
 })
