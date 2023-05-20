@@ -8,7 +8,7 @@ import { useAudio } from '@/common/hook/useAudio'
 // Card
 export const cardListAtom = atom<CardType[]>(CARD_LIST_DATA)
 export const selectedCardListAtom = atom<CardType[]>([])
-const { userGetCardAudio } = useAudio()
+const { userGetCardAudio, flipAudio } = useAudio()
 
 export const flipCardAtom = atom(null, (get, set, selectCard: CardType) => {
   const currentSelectedCardList = get(selectedCardListAtom)
@@ -32,13 +32,17 @@ export const flipCardAtom = atom(null, (get, set, selectCard: CardType) => {
 
 // カードを選択したときの処理
 export const selectAndCheckCardAtom = atom(null, (get, set, selectedCard: CardType) => {
-  // カードを２枚選択中であれば、それ以上は選択できないようにする
   const currentSelectedCardList = get(selectedCardListAtom)
 
+  // カードを２枚選択中であれば、それ以上は選択できないようにする
   if (currentSelectedCardList.length === 2) {
     return
-  } else if (currentSelectedCardList.length === 0) {
-    // カードがまだ選択されていない場合は、選択したカードをselectedCardListAtomに追加する
+  }
+
+  flipAudio.play()
+
+  // カードがまだ選択されていない場合は、選択したカードをselectedCardListAtomに追加する
+  if (currentSelectedCardList.length === 0) {
     const newSelectedCardList = [...currentSelectedCardList, selectedCard]
     set(selectedCardListAtom, newSelectedCardList)
     return
