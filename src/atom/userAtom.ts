@@ -1,6 +1,5 @@
-import { UserType } from '@/common/type/type'
+import { UserType } from '@/common/type'
 import { atom } from 'jotai'
-
 
 export const userAtom = atom<UserType>({
   name: '',

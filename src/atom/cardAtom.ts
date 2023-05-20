@@ -1,6 +1,5 @@
 import { CARD_LIST_DATA } from '@/common/card-data'
-import { CardType } from '@/common/type'
-import { Status } from '@/common/type/type'
+import { CardType, Status } from '@/common/type'
 import { atom } from 'jotai'
 import { userAtom } from './userAtom'
 

@@ -10,7 +10,6 @@ export type CardType = {
   status: Status
 }
 
-
 export type BoardType = {
   currentTurn: 'player' | 'cpu'
   winner: 'player' | 'cpu' | null
