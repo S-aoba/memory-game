@@ -1,4 +1,8 @@
-import { CardType } from '@/common/type'
+import { UserType } from '@/common/type/type'
 import { atom } from 'jotai'
 
-export const userCardListAtom = atom<CardType[][]>([])
+
+export const userAtom = atom<UserType>({
+  name: '',
+  cardList: [],
+})
