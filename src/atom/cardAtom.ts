@@ -3,10 +3,12 @@ import { CardType } from '@/common/type'
 import { Status } from '@/common/type/type'
 import { atom } from 'jotai'
 import { userCardListAtom } from './userAtom'
+import { useAudio } from '@/common/hook/useAudio'
 
 // Card
 export const cardListAtom = atom<CardType[]>(CARD_LIST_DATA)
 export const selectedCardListAtom = atom<CardType[]>([])
+const { userGetCardAudio } = useAudio()
 
 export const flipCardAtom = atom(null, (get, set, selectCard: CardType) => {
   const currentSelectedCardList = get(selectedCardListAtom)
@@ -87,5 +89,6 @@ export const selectAndCheckCardAtom = atom(null, (get, set, selectedCard: CardTy
     // ここで、userCardListAtomを更新する
     const currentUserCardList = get(userCardListAtom)
     set(userCardListAtom, [...currentUserCardList, [currentSelectedCardList[0], selectedCard]])
+    userGetCardAudio.play()
   }, 1000)
 })
