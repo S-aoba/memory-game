@@ -2,7 +2,7 @@ import { CARD_LIST_DATA } from '@/common/card-data'
 import { CardType } from '@/common/type'
 import { Status } from '@/common/type/type'
 import { atom } from 'jotai'
-import { userCardListAtom } from './userAtom'
+import { userAtom } from './userAtom'
 
 export const cardListAtom = atom<CardType[]>(CARD_LIST_DATA)
 export const selectedCardListAtom = atom<CardType[]>([])
@@ -76,8 +76,12 @@ export const hideCardAtom = atom(null, (get, set, selectedCard: CardType) => {
   }, 1000)
 })
 
-export const addUserCardListAtom = atom(null, (get, set, selectedCard: CardType) => {
-  const currentUserCardList = get(userCardListAtom)
+export const addUserCardListAtom = atom(null, (get, set) => {
+  const user = get(userAtom)
+  const currentUserCardList = user.cardList
   const currentSelectedCardList = get(selectedCardListAtom)
-  set(userCardListAtom, [...currentUserCardList, [currentSelectedCardList[0], selectedCard]])
+  set(userAtom, {
+    ...user,
+    cardList: [...currentUserCardList, currentSelectedCardList],
+  })
 })
