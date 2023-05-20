@@ -1,6 +1,7 @@
 'use client'
 
 import { flipCardAtom, selectAndCheckCardAtom } from '@/atom/cardAtom'
+import { useAudio } from '@/common/hook/useAudio'
 import { CardType } from '@/common/type'
 import { useSetAtom } from 'jotai'
 import { NextPage } from 'next'
@@ -13,10 +14,13 @@ export const BackCard: NextPage<CardType> = ({ id, mark, status }) => {
   const flipCard = useSetAtom(flipCardAtom)
   const selectAndCheckCardList = useSetAtom(selectAndCheckCardAtom)
 
+  const { flipAudio } = useAudio()
+
   const handleOnClick = () => {
     const card: CardType = { id, mark, status }
     flipCard(card)
     selectAndCheckCardList(card)
+    flipAudio.play()
   }
   return (
     <>
