@@ -1,4 +1,4 @@
-import { changeTurnAtom } from '@/atom/boardAtom'
+import { boardAtom, changeTurnAtom } from '@/atom/boardAtom'
 import {
   addSelectedCardListAtom,
   addUserCardListAtom,
@@ -23,6 +23,7 @@ export const useCard = (selectedCard: CardType) => {
   const addUserCardList = useSetAtom(addUserCardListAtom)
   const hideCard = useSetAtom(hideCardAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
+  const board = useAtomValue(boardAtom)
 
   const { userGetCardAudio, flipAudio } = useAudio()
 
@@ -34,6 +35,7 @@ export const useCard = (selectedCard: CardType) => {
 
   // atomの状態の変更に関しては、cardAtom.tsで行い、handleSelectCardではそれ以外の処理を行う
   const handleSelectCard = () => {
+    if (board.currentTurn === 'cpu') return
     const selectedCardListLength = selectedCardList.length
     if (selectedCardListLength === 2) {
       return
@@ -45,8 +47,8 @@ export const useCard = (selectedCard: CardType) => {
       if (!isPair) {
         flipAndAdd(selectedCard)
         resetCardList()
-        resetSelectedCardList()
         setTimeout(() => {
+          resetSelectedCardList()
           changeTurn()
         }, 1500)
         return
@@ -56,9 +58,9 @@ export const useCard = (selectedCard: CardType) => {
       setTimeout(() => {
         addUserCardList()
         userGetCardAudio.play()
-        resetSelectedCardList()
       }, 1000)
       setTimeout(() => {
+        resetSelectedCardList()
         changeTurn()
         return
       }, 2000)
