@@ -46,6 +46,9 @@ export const useCard = (selectedCard: CardType) => {
         flipAndAdd(selectedCard)
         resetCardList()
         resetSelectedCardList()
+        setTimeout(() => {
+          changeTurn()
+        }, 1500)
         return
       }
       flipAndAdd(selectedCard)
@@ -57,6 +60,7 @@ export const useCard = (selectedCard: CardType) => {
       }, 1000)
       setTimeout(() => {
         changeTurn()
+        return
       }, 2000)
     }
   }
