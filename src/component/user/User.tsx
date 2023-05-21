@@ -3,16 +3,23 @@
 import { userAtom } from '@/atom/userAtom'
 import { UserCard } from '../card'
 import { useAtomValue } from 'jotai'
+import { boardAtom } from '@/atom/boardAtom'
 
 /**
  * @package
  */
 
 export const User = () => {
+  const board = useAtomValue(boardAtom)
+
   const user = useAtomValue(userAtom)
 
   return (
-    <div className=' h-full max-h-[800px] w-11/12 max-w-[600px] border border-solid'>
+    <div
+      className={` h-full max-h-[800px] w-11/12 max-w-[600px] ${
+        board.currentTurn === 'player' ? 'border-8 border-solid border-yellow-400' : 'border-8 border-solid'
+      } `}
+    >
       <div className=' flex h-1/4 w-full items-center justify-center border-b border-l-0 border-r-0 border-t-0 border-solid'>
         <p className=' text-5xl'>Your</p>
       </div>

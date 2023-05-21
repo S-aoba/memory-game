@@ -1,3 +1,4 @@
+import { changeTurnAtom } from '@/atom/boardAtom'
 import {
   addSelectedCardListAtom,
   addUserCardListAtom,
@@ -21,6 +22,7 @@ export const useCard = (selectedCard: CardType) => {
   const resetCardList = useSetAtom(resetCardListAtom)
   const addUserCardList = useSetAtom(addUserCardListAtom)
   const hideCard = useSetAtom(hideCardAtom)
+  const changeTurn = useSetAtom(changeTurnAtom)
 
   const { userGetCardAudio, flipAudio } = useAudio()
 
@@ -52,8 +54,10 @@ export const useCard = (selectedCard: CardType) => {
         addUserCardList()
         userGetCardAudio.play()
         resetSelectedCardList()
-        return
       }, 1000)
+      setTimeout(() => {
+        changeTurn()
+      }, 2000)
     }
   }
 
