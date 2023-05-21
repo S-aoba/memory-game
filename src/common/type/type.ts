@@ -20,3 +20,7 @@ export type UserType = {
   name: string
   cardList: CardType[][]
 }
+
+export type CpuType = {
+  cardList: CardType[][]
+}
