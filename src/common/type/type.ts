@@ -11,6 +11,7 @@ export type CardType = {
 }
 
 export type BoardType = {
+  isGameStart: boolean
   currentTurn: 'player' | 'cpu'
   winner: 'player' | 'cpu' | null
 }
