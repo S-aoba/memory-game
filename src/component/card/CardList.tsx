@@ -3,7 +3,7 @@
 import { useAtomValue } from 'jotai'
 import { Card } from './Card'
 import { cardListAtom } from '@/atom/cardAtom'
-import { boardAtom } from '@/atom/tableAtom'
+import { boardAtom } from '@/atom/boardAtom'
 
 export const CardList = () => {
   const board = useAtomValue(boardAtom)
