@@ -1,6 +1,6 @@
 'use client'
 
-import { startGameAtom } from '@/atom/tableAtom'
+import { startGameAtom } from '@/atom/boardAtom'
 import { useSetAtom } from 'jotai'
 import Link from 'next/link'
 
