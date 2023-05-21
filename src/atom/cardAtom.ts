@@ -2,6 +2,7 @@ import { CARD_LIST_DATA } from '@/common/card-data'
 import { CardType, Status } from '@/common/type'
 import { atom } from 'jotai'
 import { userAtom } from './userAtom'
+import { cpuAtom } from './cpuAtom'
 
 export const cardListAtom = atom<CardType[]>(CARD_LIST_DATA)
 export const selectedCardListAtom = atom<CardType[]>([])
@@ -28,7 +29,7 @@ export const addSelectedCardListAtom = atom(null, (get, set, selectedCard: CardT
   set(selectedCardListAtom, newSelectedCardList)
 })
 
-export const checkIsPairAtom = atom(null, (get, set, selectedCard: CardType) => {
+export const checkIsPairAtom = atom(null, (get, _, selectedCard: CardType) => {
   const currentSelectedCardList = get(selectedCardListAtom)
   const isPear = currentSelectedCardList.some((card) => {
     return card.id === selectedCard.id
@@ -82,5 +83,15 @@ export const addUserCardListAtom = atom(null, (get, set) => {
   set(userAtom, {
     ...user,
     cardList: [...currentUserCardList, currentSelectedCardList],
+  })
+})
+
+export const addCpuCardListAtom = atom(null, (get, set) => {
+  const cpu = get(cpuAtom)
+  const currentCpuCardList = cpu.cardList
+  const currentSelectedCardList = get(selectedCardListAtom)
+  set(cpuAtom, {
+    ...cpu,
+    cardList: [...currentCpuCardList, currentSelectedCardList],
   })
 })
