@@ -4,7 +4,7 @@ import { atom } from 'jotai'
 
 export const boardAtom = atom<BoardType>({
   cardList: CARD_LIST_DATA,
-  selectedCard: "",
+  selectedCard: null,
   isGameStart: false,
   currentTurn: 'player',
   winner: null,
@@ -13,7 +13,7 @@ export const boardAtom = atom<BoardType>({
 export const startGameAtom = atom(null, (_, set) => {
   set(boardAtom, {
     cardList: CARD_LIST_DATA,
-    selectedCard: "",
+    selectedCard: null,
     isGameStart: true,
     currentTurn: 'player',
     winner: null,
@@ -28,3 +28,6 @@ export const changeTurnAtom = atom(null, (get, set) => {
     currentTurn: nextTurn,
   })
 })
+
+
+

@@ -12,7 +12,7 @@ export type CardType = {
 
 export type BoardType = {
   cardList: CardType[]
-  selectedCard: string
+  selectedCard: CardType | null
   isGameStart: boolean
   currentTurn: 'player' | 'cpu'
   winner: 'player' | 'cpu' | null
