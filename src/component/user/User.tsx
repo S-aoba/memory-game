@@ -24,9 +24,9 @@ export const User = () => {
         <p className=' text-5xl'>Your</p>
       </div>
       <div className=' h-3/4 py-4'>
-        {user.cardList.length >= 1 ? (
+        {user.userCardList.length >= 1 ? (
           <div className=' grid h-full w-full grid-cols-4 gap-y-10'>
-            {user.cardList.map((card, index) => {
+            {user.userCardList.map((card, index) => {
               return <UserCard key={index} card={card} />
             })}
           </div>

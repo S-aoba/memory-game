@@ -11,16 +11,23 @@ export type CardType = {
 }
 
 export type BoardType = {
+  cardList: CardType[]
+  selectedCard: string
   isGameStart: boolean
   currentTurn: 'player' | 'cpu'
   winner: 'player' | 'cpu' | null
 }
 
+export type HandCardList = {
+  first: CardType
+  second: CardType
+}
+
 export type UserType = {
   name: string
-  cardList: CardType[][]
+  userCardList: HandCardList[]
 }
 
 export type CpuType = {
-  cardList: CardType[][]
+  cpuCardList: HandCardList[]
 }

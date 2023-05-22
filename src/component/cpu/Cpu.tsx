@@ -22,9 +22,9 @@ export const Cpu = () => {
         <p className=' text-5xl'>CPU</p>
       </div>
       <div className=' h-3/4 py-4'>
-        {cpu.cardList.length >= 1 ? (
+        {cpu.cpuCardList.length >= 1 ? (
           <div className=' grid h-full w-full grid-cols-4 gap-y-10'>
-            {cpu.cardList.map((card, index) => {
+            {cpu.cpuCardList.map((card, index) => {
               return <UserCard key={index} card={card} />
             })}
           </div>
