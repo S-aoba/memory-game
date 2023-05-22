@@ -11,6 +11,7 @@ export type CardType = {
 }
 
 export type BoardType = {
+  isFlip: boolean
   cardList: CardType[]
   selectedCard: CardType | null
   isGameStart: boolean
