@@ -32,6 +32,14 @@ export const changeTurnAtom = atom(null, (get, set) => {
   })
 })
 
+export const resetSelectedCardAtom = atom(null, (get, set) => {
+  const resetState = null
+  set(boardAtom, {
+    ...get(boardAtom),
+    selectedCard: resetState,
+  })
+})
+
 export const selectCardAtom = atom(
   (get) => get(boardAtom).selectedCard,
   (get, set, currentCard: CardType) => {
@@ -99,13 +107,6 @@ export const addCardToUserCardListAtom = atom(null, (get, set, secondCard: CardT
   set(userAtom, {
     ...get(userAtom),
     userCardList: [...get(userAtom).userCardList, newUserCardList],
-  })
-})
-
-export const resetSelectedCardAtom = atom(null, (get, set) => {
-  set(boardAtom, {
-    ...get(boardAtom),
-    selectedCard: null,
   })
 })
 
