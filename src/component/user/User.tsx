@@ -1,9 +1,10 @@
 'use client'
 
-import { userAtom } from '@/atom/userAtom'
+import { resetUserSelectedCard, userAtom } from '@/atom/userAtom'
 import { UserCard } from '../card'
-import { useAtomValue } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { boardAtom } from '@/atom/boardAtom'
+import { useEffect } from 'react'
 
 /**
  * @package
@@ -13,6 +14,12 @@ export const User = () => {
   const board = useAtomValue(boardAtom)
 
   const user = useAtomValue(userAtom)
+
+  const resetSelectedUserCard = useSetAtom(resetUserSelectedCard)
+
+  useEffect(() => {
+    resetSelectedUserCard()
+  }, [board.currentTurn])
 
   return (
     <div

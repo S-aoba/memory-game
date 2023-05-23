@@ -1,9 +1,4 @@
-import {
-  changeCardStatusAtom,
-  resetSelectedCardAtom,
-  changeTurnAtom,
-  addCardToUserCardListAtom,
-} from '@/atom/boardAtom'
+import { changeCardStatusAtom, changeTurnAtom, addCardToUserCardListAtom } from '@/atom/boardAtom'
 import { selectedUserCardAtom } from '@/atom/userAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import { CardType } from '@/common/type'
@@ -15,7 +10,6 @@ export const useUser = (currentCard: CardType) => {
   const [userSelectionCard, selectUserCard] = useAtom(selectedUserCardAtom)
   const changeCardStatus = useSetAtom(changeCardStatusAtom)
   const addCardToUserCardList = useSetAtom(addCardToUserCardListAtom)
-  const resetSelectedCard = useSetAtom(resetSelectedCardAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
 
   const flipCard = () => {
@@ -25,9 +19,6 @@ export const useUser = (currentCard: CardType) => {
 
   // user１回目のカード選択の処理関数
   const firstUserTurn = async () => {
-    if (!userSelectionCard) {
-      resetSelectedCard()
-    }
     selectUserCard(currentCard)
     flipCard()
   }

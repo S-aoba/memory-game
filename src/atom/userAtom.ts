@@ -16,3 +16,10 @@ export const selectedUserCardAtom = atom(
     })
   }
 )
+
+export const resetUserSelectedCard = atom(null, (get, set) => {
+  set(userAtom, {
+    ...get(userAtom),
+    selectedCard: null,
+  })
+})
