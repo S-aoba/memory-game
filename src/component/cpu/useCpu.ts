@@ -9,7 +9,6 @@ export const useCpu = () => {
 
   const changeCardStatus = useSetAtom(changeCardStatusAtom)
   const addCardToCpuCardList = useSetAtom(addCardToCpuCardListAtom)
-  const resetSelectedCard = useSetAtom(resetSelectedCardAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
   const generateCpuCard = useSetAtom(generateCpuCardAtom)
 
@@ -18,7 +17,6 @@ export const useCpu = () => {
     flipAudio.play()
   }
 
-  // cpu２回目のカード選択の処理関数
   const cpuTurn = async () => {
     const firstCpuCard = generateCpuCard()
 
@@ -45,7 +43,6 @@ export const useCpu = () => {
       userGetCardAudio.play()
 
       await new Promise((resolve) => setTimeout(resolve, 1000))
-      resetSelectedCard()
       changeTurn()
       return
     }
