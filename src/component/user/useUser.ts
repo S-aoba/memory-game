@@ -25,6 +25,9 @@ export const useUser = (currentCard: CardType) => {
 
   // user１回目のカード選択の処理関数
   const firstUserTurn = async () => {
+    if (!userSelectionCard) {
+      resetSelectedCard()
+    }
     selectUserCard(currentCard)
     flipCard()
   }
@@ -46,7 +49,6 @@ export const useUser = (currentCard: CardType) => {
       userGetCardAudio.play()
 
       await new Promise((resolve) => setTimeout(resolve, 1000))
-      resetSelectedCard()
       changeTurn()
       return
     }
@@ -54,7 +56,6 @@ export const useUser = (currentCard: CardType) => {
     // ペアではない場合
     changeCardStatus(currentCard, { status: 'close' })
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    resetSelectedCard()
     changeTurn()
   }
 

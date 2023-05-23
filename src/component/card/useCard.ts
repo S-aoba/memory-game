@@ -11,25 +11,24 @@ export const useCard = (currentCard: CardType) => {
   const changeBoardStatusOfIsFlip = useSetAtom(changeBoardStatusOfIsFlipAtom)
 
   const { firstUserTurn, secondUserTurn, userSelectionCard } = useUser(currentCard)
-  const { firstCpuTurn, secondCpuTurn } = useCpu()
+  const { cpuTurn } = useCpu()
   // すべてのカードのstatusがnullになればゲーム終了のアラートを出す
 
   const handleTurn = async () => {
     if (!board.isFlip) return
+
     if (userSelectionCard === null) {
       // user１回目のカード選択
       await firstUserTurn()
       return
     }
     // user２回目のカード選択
-    changeBoardStatusOfIsFlip()
+    changeBoardStatusOfIsFlip() //isFlip -> false
     await secondUserTurn()
 
-    // cpu１回目のカード選択
-    await firstCpuTurn()
-    // cpu２回目のカード選択
-    await secondCpuTurn()
-    changeBoardStatusOfIsFlip()
+    // cpuのターン
+    await cpuTurn()
+    changeBoardStatusOfIsFlip() //isFlip -> true
 
     // すべてのカードのstatusがnullになればゲーム終了のアラートを出す
   }
