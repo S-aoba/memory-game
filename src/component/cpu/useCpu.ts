@@ -25,7 +25,7 @@ export const useCpu = () => {
     // CPU:1枚目のカードを選択
     const fistCpuCard = selectCpuCard()
     select(fistCpuCard)
-    console.log(selectedCard)
+
     await new Promise((resolve) => setTimeout(resolve, 1000))
     changeCardStatus(fistCpuCard, { status: 'open' })
     flipAudio.play()
