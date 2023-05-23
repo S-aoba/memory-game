@@ -1,11 +1,11 @@
 import {
-  selectCardAtom,
   changeCardStatusAtom,
   addCardToCpuCardListAtom,
   resetSelectedCardAtom,
   changeTurnAtom,
-  selectCpuCardAtom,
+  generateCpuCardAtom,
 } from '@/atom/boardAtom'
+import { selectedCpuCardAtom } from '@/atom/cpuAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import { CardType } from '@/common/type'
 import { useAtom, useSetAtom } from 'jotai'
@@ -13,22 +13,25 @@ import { useAtom, useSetAtom } from 'jotai'
 export const useCpu = () => {
   const { flipAudio, userGetCardAudio } = useAudio()
 
-  const [selectedCard, select] = useAtom(selectCardAtom)
+  const [cpuSelectionCard, selectCpuCard] = useAtom(selectedCpuCardAtom)
   const changeCardStatus = useSetAtom(changeCardStatusAtom)
   const addCardToCpuCardList = useSetAtom(addCardToCpuCardListAtom)
   const resetSelectedCard = useSetAtom(resetSelectedCardAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
-  const selectCpuCard = useSetAtom(selectCpuCardAtom)
+  const generateCpuCard = useSetAtom(generateCpuCardAtom)
+
+  const flipCard = (firstCard: CardType) => {
+    changeCardStatus(firstCard, { status: 'open' })
+    flipAudio.play()
+  }
 
   // cpu１回目のカード選択の処理関数
   const firstCpuTurn = async () => {
-    // CPU:1枚目のカードを選択
-    const fistCpuCard = selectCpuCard()
-    select(fistCpuCard)
+    const fistCpuCard = generateCpuCard()
+    selectCpuCard(fistCpuCard)
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    changeCardStatus(fistCpuCard, { status: 'open' })
-    flipAudio.play()
+    flipCard(fistCpuCard)
   }
 
   // cpu２回目のカード選択の処理関数
@@ -36,13 +39,11 @@ export const useCpu = () => {
     const secondCpuCard: CardType = { id: 1, mark: 'club', status: 'close' }
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    changeCardStatus(secondCpuCard, { status: 'open' })
-    flipAudio.play()
+    flipCard(secondCpuCard)
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    if (!selectedCard) return
-
-    const isPair = selectedCard.id === secondCpuCard.id
+    if (!cpuSelectionCard) return
+    const isPair = cpuSelectionCard.id === secondCpuCard.id
 
     // ペアの場合
     if (isPair) {

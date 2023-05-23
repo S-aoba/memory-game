@@ -57,7 +57,8 @@ export const selectCardAtom = atom(
 export const changeCardStatusAtom = atom(null, (get, set, currentCard: CardType, status: Pick<CardType, 'status'>) => {
   const newStatus = status.status
   const cardList = get(boardAtom).cardList
-  const selectedCard = get(boardAtom).selectedCard
+  const currentTurn = get(boardAtom).currentTurn
+  const selectedCard = currentTurn === 'player' ? get(userAtom).selectedCard : get(cpuAtom).selectedCard
 
   const newCardList = cardList.map((card) => {
     if (newStatus === 'open' && card.id === currentCard.id && card.mark === currentCard.mark) {
@@ -98,7 +99,7 @@ export const changeBoardStatusOfIsFlipAtom = atom(null, (get, set) => {
 })
 
 export const addCardToUserCardListAtom = atom(null, (get, set, secondCard: CardType) => {
-  const firstCard = get(boardAtom).selectedCard
+  const firstCard = get(userAtom).selectedCard
   if (!firstCard) return
   const newUserCardList = {
     first: firstCard,
@@ -110,7 +111,7 @@ export const addCardToUserCardListAtom = atom(null, (get, set, secondCard: CardT
   })
 })
 
-export const selectCpuCardAtom = atom(null, (get, _) => {
+export const generateCpuCardAtom = atom(null, (get, _) => {
   const cardList = get(boardAtom).cardList
   const availableCardList = cardList.filter((card) => card.status !== null && card.status !== 'open')
   const randomId = Math.floor(Math.random() * 5) + 1
@@ -120,7 +121,7 @@ export const selectCpuCardAtom = atom(null, (get, _) => {
 })
 
 export const addCardToCpuCardListAtom = atom(null, (get, set, secondCard: CardType) => {
-  const firstCard = get(boardAtom).selectedCard
+  const firstCard = get(cpuAtom).selectedCard
   if (!firstCard) return
   const newCpuCardList = {
     first: firstCard,

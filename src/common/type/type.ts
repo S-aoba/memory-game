@@ -26,9 +26,11 @@ export type HandCardList = {
 
 export type UserType = {
   name: string
+  selectedCard: CardType | null
   userCardList: HandCardList[]
 }
 
 export type CpuType = {
+  selectedCard: CardType | null
   cpuCardList: HandCardList[]
 }
