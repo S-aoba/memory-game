@@ -111,14 +111,14 @@ export const addCardToUserCardListAtom = atom(null, (get, set, secondCard: CardT
   })
 })
 
-export const generateCpuCardAtom = atom(null, (get, _) => {
-  const cardList = get(boardAtom).cardList
-  const availableCardList = cardList.filter((card) => card.status !== null && card.status !== 'open')
-  const randomId = Math.floor(Math.random() * 5) + 1
-  const randomCardList = availableCardList.filter((card) => card.id === randomId)
-  const cpuCard = randomCardList[Math.floor(Math.random() * randomCardList.length)]
-  return cpuCard
-})
+// export const generateCpuCardAtom = atom(null, (get, _) => {
+//   const cardList = get(boardAtom).cardList
+//   const availableCardList = cardList.filter((card) => card.status !== null && card.status !== 'open')
+//   const randomId = Math.floor(Math.random() * 5) + 1
+//   const randomCardList = availableCardList.filter((card) => card.id === randomId)
+//   const cpuCard = randomCardList[Math.floor(Math.random() * randomCardList.length)]
+//   return cpuCard
+// })
 
 export const addCardToCpuCardListAtom = atom(null, (get, set, secondCard: CardType) => {
   const firstCard = get(cpuAtom).selectedCard

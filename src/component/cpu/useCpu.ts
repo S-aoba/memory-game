@@ -1,11 +1,5 @@
-import {
-  changeCardStatusAtom,
-  addCardToCpuCardListAtom,
-  resetSelectedCardAtom,
-  changeTurnAtom,
-  generateCpuCardAtom,
-} from '@/atom/boardAtom'
-import { selectedCpuCardAtom } from '@/atom/cpuAtom'
+import { changeCardStatusAtom, addCardToCpuCardListAtom, resetSelectedCardAtom, changeTurnAtom } from '@/atom/boardAtom'
+import { generateCpuCardAtom, selectedCpuCardAtom } from '@/atom/cpuAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import { CardType } from '@/common/type'
 import { useAtom, useSetAtom } from 'jotai'
