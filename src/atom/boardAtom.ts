@@ -15,9 +15,11 @@ export const boardAtom = atom<BoardType>({
 
 export const startGameAtom = atom(null, (get, set) => {
   const currentBoard = get(boardAtom)
+  const shuffleCardList = currentBoard.cardList.sort(() => Math.random() - 0.5)
 
   const newState = {
     ...currentBoard,
+    cardList: shuffleCardList,
     isGameStart: true,
   }
   set(boardAtom, newState)
