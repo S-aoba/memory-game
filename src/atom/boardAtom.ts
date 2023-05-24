@@ -3,7 +3,6 @@ import { BoardType, CardType } from '@/common/type'
 import { atom } from 'jotai'
 import { userAtom } from './userAtom'
 import { cpuAtom } from './cpuAtom'
-import { Winner } from '@/common/type/type'
 
 export const boardAtom = atom<BoardType>({
   isFlip: true,
@@ -25,35 +24,6 @@ export const startGameAtom = atom(null, (get, set) => {
     isGameStart: true,
   }
   set(boardAtom, newState)
-})
-
-export const endGameAtom = atom(null, (get, set) => {
-  const currentBoard = get(boardAtom)
-  const newState = {
-    ...currentBoard,
-    isFinish: true,
-  }
-  set(boardAtom, newState)
-})
-
-export const checkCardListAtom = atom(null, (get, set) => {
-  const currentCardListLength = get(boardAtom).cardList.length
-  const currentCardList = get(boardAtom).cardList
-
-  const checkCardList = currentCardList.filter((card) => {
-    return card.status === null
-  })
-
-  const endGameCarListLength = checkCardList.length
-
-  if (currentCardListLength === endGameCarListLength) {
-    const currentBoard = get(boardAtom)
-    const newState = {
-      ...currentBoard,
-      isFinish: true,
-    }
-    set(boardAtom, newState)
-  }
 })
 
 export const checkWinnerAtom = atom(null, (get, set) => {

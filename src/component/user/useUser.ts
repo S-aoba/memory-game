@@ -1,31 +1,33 @@
-import { changeCardStatusAtom, changeTurnAtom, addCardToUserCardListAtom } from '@/atom/boardAtom'
+import { changeCardStatusAtom, changeTurnAtom, addCardToUserCardListAtom, boardAtom } from '@/atom/boardAtom'
 import { selectedUserCardAtom } from '@/atom/userAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import { CardType } from '@/common/type'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 
-export const useUser = (currentCard: CardType) => {
+export const useUser = () => {
   const { flipAudio, userGetCardAudio } = useAudio()
 
   const [userSelectionCard, selectUserCard] = useAtom(selectedUserCardAtom)
   const changeCardStatus = useSetAtom(changeCardStatusAtom)
   const addCardToUserCardList = useSetAtom(addCardToUserCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
+  const board = useAtomValue(boardAtom)
 
-  const flipCard = () => {
+
+  const flipCard = (currentCard: CardType) => {
     changeCardStatus(currentCard, { status: 'open' })
     flipAudio.play()
   }
 
   // user１回目のカード選択の処理関数
-  const firstUserTurn = async () => {
+  const firstUserTurn = async (currentCard: CardType) => {
     selectUserCard(currentCard)
-    flipCard()
+    flipCard(currentCard)
   }
 
   // user２回目のカード選択の処理関数
-  const secondUserTurn = async () => {
-    flipCard()
+  const secondUserTurn = async (currentCard: CardType) => {
+    flipCard(currentCard)
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
@@ -50,9 +52,17 @@ export const useUser = (currentCard: CardType) => {
     changeTurn()
   }
 
+  // User.tsx, Cpu.tsxがboard.currentTurnが変更されるたびにレンダリングので、そのたびにBoard.cardListのすべてのstatusがnull出ないかを判定する関数
+  const checkIsGameOver = (): boolean => {
+    const currentCardList = board.cardList
+    const isGameOver = currentCardList.every((card) => card.status === null)
+    return isGameOver
+  }
+
   return {
     firstUserTurn,
     secondUserTurn,
     userSelectionCard,
+    checkIsGameOver,
   }
 }

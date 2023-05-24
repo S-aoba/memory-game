@@ -1,6 +1,5 @@
 import { CardType } from '@/common/type'
 import { useUser } from '../user/useUser'
-import { useCpu } from '../cpu/useCpu'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { boardAtom, changeBoardStatusOfIsFlipAtom } from '@/atom/boardAtom'
 
@@ -11,26 +10,21 @@ export const useCard = (currentCard: CardType) => {
 
   const changeBoardStatusOfIsFlip = useSetAtom(changeBoardStatusOfIsFlipAtom)
 
-  const { firstUserTurn, secondUserTurn, userSelectionCard } = useUser(currentCard)
-  const { cpuTurn } = useCpu()
+  const { firstUserTurn, secondUserTurn, userSelectionCard } = useUser()
 
-  const handleTurn = async () => {
+  const handleUserTurn = async () => {
     if (!board.isFlip) return
 
     if (userSelectionCard === null) {
       // user１回目のカード選択
-      await firstUserTurn()
+      await firstUserTurn(currentCard)
       return
     }
     // user２回目のカード選択
     changeBoardStatusOfIsFlip()
-    await secondUserTurn()
-    
-    if(board.isFinish) return
-
-    // cpuのターン
-    await cpuTurn()
+    await secondUserTurn(currentCard)
     changeBoardStatusOfIsFlip()
   }
-  return { handleTurn }
+
+  return { handleUserTurn }
 }
