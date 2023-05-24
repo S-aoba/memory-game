@@ -71,17 +71,17 @@ export const useCpu = () => {
     return isGameOver
   }
 
-  const checkWinner = (): 'draw' | 'cpu' | 'player' => {
+  const checkWinner = (): 'drawとなりました' | '勝者はcpuです' | '勝者はplayerです' => {
     setWinner()
     const userCardLength = user.userCardList.length
     const cpuCardLength = cpu.cpuCardList.length
 
     if (userCardLength < cpuCardLength) {
-      return 'cpu'
+      return '勝者はcpuです'
     } else if (userCardLength > cpuCardLength) {
-      return 'player'
+      return '勝者はplayerです'
     }
-    return 'draw'
+    return 'drawとなりました'
   }
 
   return {

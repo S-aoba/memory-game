@@ -22,7 +22,7 @@ export const Cpu = () => {
       const isGameOver: boolean = checkIsGameOver()
       if (isGameOver) {
         const winner = checkWinner()
-        alert(`勝者は${winner}です`)
+        alert(`${winner}`)
         return
       }
       cpuTurn()

@@ -25,7 +25,7 @@ export const User = () => {
       if (isGameOver) {
         const winner = checkWinner()
         resetSelectedUserCard()
-        alert(`勝者は${winner}です`)
+        alert(`${winner}`)
         return
       }
       resetSelectedUserCard()
