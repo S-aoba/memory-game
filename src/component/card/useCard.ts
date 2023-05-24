@@ -5,14 +5,14 @@ import { boardAtom, changeBoardStatusOfIsFlipAtom } from '@/atom/boardAtom'
 
 // atomの状態の変更に関してはboardAtom.tsを参照
 
-export const useCard = (currentCard: CardType) => {
+export const useCard = () => {
   const board = useAtomValue(boardAtom)
 
   const changeBoardStatusOfIsFlip = useSetAtom(changeBoardStatusOfIsFlipAtom)
 
   const { firstUserTurn, secondUserTurn, userSelectionCard } = useUser()
 
-  const handleUserTurn = async () => {
+  const handleUserTurn = async (currentCard: CardType) => {
     if (!board.isFlip) return
 
     if (userSelectionCard === null) {

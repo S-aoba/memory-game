@@ -9,14 +9,14 @@ import { useCard } from './useCard'
  */
 
 export const BackCard: NextPage<CardType> = ({ id, mark, status }) => {
-  const { handleUserTurn } = useCard({ id, mark, status })
+  const { handleUserTurn } = useCard()
 
   return (
     <>
       {status !== null ? (
         <div
           className='col-span-1 h-36 w-20 rounded-lg bg-white p-2 outline-yellow-300 hover:cursor-pointer hover:outline hover:outline-4 hover:outline-offset-4'
-          onClick={handleUserTurn}
+          onClick={() => handleUserTurn({ id, mark, status })}
         >
           <div className='h-full w-full rounded-lg bg-slate-500'></div>
         </div>
