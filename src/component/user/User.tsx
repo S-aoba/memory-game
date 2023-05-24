@@ -3,7 +3,7 @@
 import { resetUserSelectedCard, userAtom } from '@/atom/userAtom'
 import { UserCard } from '../card'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { boardAtom, checkWinnerAtom } from '@/atom/boardAtom'
+import { boardAtom } from '@/atom/boardAtom'
 import { useEffect } from 'react'
 import { useUser } from './useUser'
 
@@ -14,19 +14,19 @@ import { useUser } from './useUser'
 export const User = () => {
   const board = useAtomValue(boardAtom)
   const resetSelectedUserCard = useSetAtom(resetUserSelectedCard)
-  const checkWinner = useSetAtom(checkWinnerAtom)
 
   const user = useAtomValue(userAtom)
-  const { checkIsGameOver } = useUser()
+  const { checkIsGameOver, checkWinner } = useUser()
 
   useEffect(() => {
     if (board.currentTurn === 'player') {
       const isGameOver: boolean = checkIsGameOver()
 
-      // ゲームオーバー
       if (isGameOver) {
-        checkWinner()
-        alert(`勝者は${board.winner}です`)
+        const winner = checkWinner()
+        resetSelectedUserCard()
+        alert(`勝者は${winner}です`)
+        return
       }
       resetSelectedUserCard()
     }

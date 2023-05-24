@@ -1,5 +1,12 @@
-import { changeCardStatusAtom, changeTurnAtom, addCardToUserCardListAtom, boardAtom } from '@/atom/boardAtom'
-import { selectedUserCardAtom } from '@/atom/userAtom'
+import {
+  changeCardStatusAtom,
+  changeTurnAtom,
+  addCardToUserCardListAtom,
+  boardAtom,
+  setWinnerAtom,
+} from '@/atom/boardAtom'
+import { cpuAtom } from '@/atom/cpuAtom'
+import { selectedUserCardAtom, userAtom } from '@/atom/userAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import { CardType } from '@/common/type'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
@@ -12,7 +19,9 @@ export const useUser = () => {
   const addCardToUserCardList = useSetAtom(addCardToUserCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
   const board = useAtomValue(boardAtom)
-
+  const user = useAtomValue(userAtom)
+  const cpu = useAtomValue(cpuAtom)
+  const setWinner = useSetAtom(setWinnerAtom)
 
   const flipCard = (currentCard: CardType) => {
     changeCardStatus(currentCard, { status: 'open' })
@@ -59,10 +68,24 @@ export const useUser = () => {
     return isGameOver
   }
 
+  const checkWinner = (): 'draw' | 'cpu' | 'player' => {
+    setWinner()
+    const userCardLength = user.userCardList.length
+    const cpuCardLength = cpu.cpuCardList.length
+
+    if (userCardLength < cpuCardLength) {
+      return 'cpu'
+    } else if (userCardLength > cpuCardLength) {
+      return 'player'
+    }
+    return 'draw'
+  }
+
   return {
     firstUserTurn,
     secondUserTurn,
     userSelectionCard,
     checkIsGameOver,
+    checkWinner,
   }
 }

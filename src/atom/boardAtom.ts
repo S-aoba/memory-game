@@ -26,10 +26,10 @@ export const startGameAtom = atom(null, (get, set) => {
   set(boardAtom, newState)
 })
 
-export const checkWinnerAtom = atom(null, (get, set) => {
+export const setWinnerAtom = atom(null, (get, set) => {
   const userCardLength = get(userAtom).userCardList.length
   const cpuCardLength = get(cpuAtom).cpuCardList.length
-
+  console.log(userCardLength, cpuCardLength)
   if (userCardLength === cpuCardLength) {
     set(boardAtom, {
       ...get(boardAtom),

@@ -1,7 +1,7 @@
 'use client'
 
-import { boardAtom, checkWinnerAtom } from '@/atom/boardAtom'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { boardAtom } from '@/atom/boardAtom'
+import { useAtomValue } from 'jotai'
 import { cpuAtom } from '@/atom/cpuAtom'
 import { UserCard } from '../card'
 import { useEffect } from 'react'
@@ -14,16 +14,15 @@ import { useCpu } from './useCpu'
 export const Cpu = () => {
   const board = useAtomValue(boardAtom)
   const cpu = useAtomValue(cpuAtom)
-  const checkWinner = useSetAtom(checkWinnerAtom)
 
-  const { cpuTurn, checkIsGameOver } = useCpu()
+  const { cpuTurn, checkIsGameOver, checkWinner } = useCpu()
 
   useEffect(() => {
     if (board.currentTurn === 'cpu') {
       const isGameOver: boolean = checkIsGameOver()
       if (isGameOver) {
-        checkWinner()
-        alert(`勝者は${board.winner}です`)
+        const winner = checkWinner()
+        alert(`勝者は${winner}です`)
         return
       }
       cpuTurn()
