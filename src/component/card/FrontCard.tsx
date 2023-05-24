@@ -8,12 +8,12 @@ import { NextPage } from 'next'
  * @package
  */
 
-export const FrontCard: NextPage<Omit<CardType, 'status'>> = ({ id, mark }) => {
-  const handleToggle = () => {}
+export const FrontCard: NextPage<CardType> = ({ id, mark, status }) => {
   return (
     <div
-      className='hover: col-span-1 h-36 w-20 rounded-lg bg-white p-2 outline-yellow-300 hover:cursor-pointer hover:outline hover:outline-4 hover:outline-offset-4'
-      onClick={handleToggle}
+      className={`${
+        status === 'open' && 'animate-flip-vertical-right'
+      } hover: col-span-1 h-36 w-20 rounded-lg bg-white p-2 outline-yellow-300 hover:cursor-pointer hover:outline hover:outline-4 hover:outline-offset-4`}
     >
       <div className='flex h-full w-full flex-col'>
         <div className=' flex justify-start'>
