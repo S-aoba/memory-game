@@ -15,22 +15,22 @@ export const CARD_LIST_DATA: CardType[] = [
     mark: 'hart',
     status: 'close',
   },
-  // {
-  //   id: 3,
-  //   mark: 'hart',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 4,
-  //   mark: 'hart',
-  //   status: 'close',
-  // },
+  {
+    id: 3,
+    mark: 'hart',
+    status: 'close',
+  },
+  {
+    id: 4,
+    mark: 'hart',
+    status: 'close',
+  },
 
-  // {
-  //   id: 5,
-  //   mark: 'hart',
-  //   status: 'close',
-  // },
+  {
+    id: 5,
+    mark: 'hart',
+    status: 'close',
+  },
   {
     id: 1,
     mark: 'spade',
@@ -41,21 +41,21 @@ export const CARD_LIST_DATA: CardType[] = [
     mark: 'spade',
     status: 'close',
   },
-  // {
-  //   id: 3,
-  //   mark: 'spade',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 4,
-  //   mark: 'spade',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 5,
-  //   mark: 'spade',
-  //   status: 'close',
-  // },
+  {
+    id: 3,
+    mark: 'spade',
+    status: 'close',
+  },
+  {
+    id: 4,
+    mark: 'spade',
+    status: 'close',
+  },
+  {
+    id: 5,
+    mark: 'spade',
+    status: 'close',
+  },
   {
     id: 1,
     mark: 'diamond',
@@ -66,21 +66,21 @@ export const CARD_LIST_DATA: CardType[] = [
     mark: 'diamond',
     status: 'close',
   },
-  // {
-  //   id: 3,
-  //   mark: 'diamond',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 4,
-  //   mark: 'diamond',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 5,
-  //   mark: 'diamond',
-  //   status: 'close',
-  // },
+  {
+    id: 3,
+    mark: 'diamond',
+    status: 'close',
+  },
+  {
+    id: 4,
+    mark: 'diamond',
+    status: 'close',
+  },
+  {
+    id: 5,
+    mark: 'diamond',
+    status: 'close',
+  },
   {
     id: 1,
     mark: 'club',
@@ -91,19 +91,19 @@ export const CARD_LIST_DATA: CardType[] = [
     mark: 'club',
     status: 'close',
   },
-  // {
-  //   id: 3,
-  //   mark: 'club',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 4,
-  //   mark: 'club',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 5,
-  //   mark: 'club',
-  //   status: 'close',
-  // },
+  {
+    id: 3,
+    mark: 'club',
+    status: 'close',
+  },
+  {
+    id: 4,
+    mark: 'club',
+    status: 'close',
+  },
+  {
+    id: 5,
+    mark: 'club',
+    status: 'close',
+  },
 ]
