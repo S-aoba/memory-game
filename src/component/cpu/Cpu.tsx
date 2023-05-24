@@ -3,7 +3,7 @@
 import { boardAtom } from '@/atom/boardAtom'
 import { useAtomValue } from 'jotai'
 import { cpuAtom } from '@/atom/cpuAtom'
-import { UserCard } from '../card'
+import { HandCard } from '../card'
 import { useEffect } from 'react'
 import { useCpu } from './useCpu'
 import { useCard } from '../card/useCard'
@@ -44,7 +44,7 @@ export const Cpu = () => {
         {cpu.cpuCardList.length >= 1 ? (
           <div className=' grid h-full w-full grid-cols-4 gap-y-10'>
             {cpu.cpuCardList.map((card, index) => {
-              return <UserCard key={index} card={card} />
+              return <HandCard key={index} card={card} />
             })}
           </div>
         ) : (

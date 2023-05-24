@@ -6,7 +6,7 @@ import { IconClubs, IconDiamond, IconHeart, IconSpade } from '@tabler/icons-reac
 /**
  * @package
  */
-export const UserCard = ({ card }: { card: HandCardList }) => {
+export const HandCard = ({ card }: { card: HandCardList }) => {
   return (
     <div className='relative col-span-1 flex w-fit'>
       <Card id={card.first.id} mark={card.first.mark} />

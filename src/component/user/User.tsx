@@ -1,7 +1,7 @@
 'use client'
 
 import { resetUserSelectedCard, userAtom } from '@/atom/userAtom'
-import { UserCard } from '../card'
+import { HandCard } from '../card'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { boardAtom } from '@/atom/boardAtom'
 import { useEffect } from 'react'
@@ -45,7 +45,7 @@ export const User = () => {
         {user.userCardList.length >= 1 ? (
           <div className=' grid h-full w-full grid-cols-4 gap-y-10'>
             {user.userCardList.map((card, index) => {
-              return <UserCard key={index} card={card} />
+              return <HandCard key={index} card={card} />
             })}
           </div>
         ) : (
