@@ -10,14 +10,18 @@ export type CardType = {
   status: Status
 }
 
+export type Winner = 'player' | 'cpu' | 'draw'
+
+type CurrentTurn = 'player' | 'cpu'
+
 export type BoardType = {
   isFlip: boolean
   cardList: CardType[]
   selectedCard: CardType | null
   isGameStart: boolean
   isFinish: boolean
-  currentTurn: 'player' | 'cpu'
-  winner: 'player' | 'cpu'
+  currentTurn: CurrentTurn
+  winner: Winner
 }
 
 export type HandCardList = {

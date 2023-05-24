@@ -3,6 +3,7 @@ import { BoardType, CardType } from '@/common/type'
 import { atom } from 'jotai'
 import { userAtom } from './userAtom'
 import { cpuAtom } from './cpuAtom'
+import { Winner } from '@/common/type/type'
 
 export const boardAtom = atom<BoardType>({
   isFlip: true,
@@ -59,12 +60,26 @@ export const checkWinnerAtom = atom(null, (get, set) => {
   const userCardLength = get(userAtom).userCardList.length
   const cpuCardLength = get(cpuAtom).cpuCardList.length
 
-  const winner = userCardLength > cpuCardLength ? 'player' : 'cpu'
+  if (userCardLength === cpuCardLength) {
+    set(boardAtom, {
+      ...get(boardAtom),
+      winner: 'draw',
+    })
+  }
 
-  set(boardAtom, {
-    ...get(boardAtom),
-    winner: winner,
-  })
+  if (userCardLength < cpuCardLength) {
+    set(boardAtom, {
+      ...get(boardAtom),
+      winner: 'cpu',
+    })
+  }
+
+  if (userCardLength > cpuCardLength) {
+    set(boardAtom, {
+      ...get(boardAtom),
+      winner: 'player',
+    })
+  }
 })
 
 export const changeTurnAtom = atom(null, (get, set) => {

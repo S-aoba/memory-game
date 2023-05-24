@@ -25,6 +25,8 @@ export const useCard = (currentCard: CardType) => {
     // user２回目のカード選択
     changeBoardStatusOfIsFlip()
     await secondUserTurn()
+    
+    if(board.isFinish) return
 
     // cpuのターン
     await cpuTurn()
