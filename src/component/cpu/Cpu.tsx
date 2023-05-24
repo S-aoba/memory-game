@@ -20,8 +20,8 @@ export const Cpu = () => {
 
   useEffect(() => {
     if (board.currentTurn === 'cpu') {
-      const isGame: boolean = checkIsGameOver()
-      if (isGame) {
+      const isGameOver: boolean = checkIsGameOver()
+      if (isGameOver) {
         checkWinner()
         alert(`勝者は${board.winner}です`)
         return
