@@ -1,15 +1,8 @@
-import {
-  changeCardStatusAtom,
-  addCardToCpuCardListAtom,
-  changeTurnAtom,
-  boardAtom,
-  setWinnerAtom,
-} from '@/atom/boardAtom'
-import { cpuAtom, generateCpuCardAtom } from '@/atom/cpuAtom'
-import { userAtom } from '@/atom/userAtom'
+import { changeCardStatusAtom, addCardToCpuCardListAtom, changeTurnAtom } from '@/atom/boardAtom'
+import { generateCpuCardAtom } from '@/atom/cpuAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import { CardType } from '@/common/type'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 
 export const useCpu = () => {
   const { flipAudio, userGetCardAudio } = useAudio()
@@ -18,10 +11,6 @@ export const useCpu = () => {
   const addCardToCpuCardList = useSetAtom(addCardToCpuCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
   const generateCpuCard = useSetAtom(generateCpuCardAtom)
-  const board = useAtomValue(boardAtom)
-  const user = useAtomValue(userAtom)
-  const cpu = useAtomValue(cpuAtom)
-  const setWinner = useSetAtom(setWinnerAtom)
 
   const flipCard = (firstCard: CardType) => {
     changeCardStatus(firstCard, { status: 'open' })
@@ -64,29 +53,8 @@ export const useCpu = () => {
     changeTurn()
     return
   }
-  // User.tsx, Cpu.tsxがboard.currentTurnが変更されるたびにレンダリングので、そのたびにBoard.cardListのすべてのstatusがnull出ないかを判定する関数
-  const checkIsGameOver = (): boolean => {
-    const currentCardList = board.cardList
-    const isGameOver = currentCardList.every((card) => card.status === null)
-    return isGameOver
-  }
-
-  const checkWinner = (): 'drawとなりました' | '勝者はcpuです' | '勝者はplayerです' => {
-    setWinner()
-    const userCardLength = user.userCardList.length
-    const cpuCardLength = cpu.cpuCardList.length
-
-    if (userCardLength < cpuCardLength) {
-      return '勝者はcpuです'
-    } else if (userCardLength > cpuCardLength) {
-      return '勝者はplayerです'
-    }
-    return 'drawとなりました'
-  }
 
   return {
     cpuTurn,
-    checkIsGameOver,
-    checkWinner,
   }
 }

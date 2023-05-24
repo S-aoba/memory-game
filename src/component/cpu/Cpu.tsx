@@ -6,6 +6,7 @@ import { cpuAtom } from '@/atom/cpuAtom'
 import { UserCard } from '../card'
 import { useEffect } from 'react'
 import { useCpu } from './useCpu'
+import { useCard } from '../card/useCard'
 
 /**
  * @package
@@ -15,7 +16,8 @@ export const Cpu = () => {
   const board = useAtomValue(boardAtom)
   const cpu = useAtomValue(cpuAtom)
 
-  const { cpuTurn, checkIsGameOver, checkWinner } = useCpu()
+  const { cpuTurn } = useCpu()
+  const { checkIsGameOver, checkWinner } = useCard()
 
   useEffect(() => {
     if (board.currentTurn === 'cpu') {

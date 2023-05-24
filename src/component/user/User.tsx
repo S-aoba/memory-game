@@ -5,7 +5,7 @@ import { UserCard } from '../card'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { boardAtom } from '@/atom/boardAtom'
 import { useEffect } from 'react'
-import { useUser } from './useUser'
+import { useCard } from '../card/useCard'
 
 /**
  * @package
@@ -16,7 +16,7 @@ export const User = () => {
   const resetSelectedUserCard = useSetAtom(resetUserSelectedCard)
 
   const user = useAtomValue(userAtom)
-  const { checkIsGameOver, checkWinner } = useUser()
+  const { checkIsGameOver, checkWinner } = useCard()
 
   useEffect(() => {
     if (board.currentTurn === 'player') {
