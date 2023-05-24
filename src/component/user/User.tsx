@@ -3,7 +3,7 @@
 import { resetUserSelectedCard, userAtom } from '@/atom/userAtom'
 import { UserCard } from '../card'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { boardAtom } from '@/atom/boardAtom'
+import { boardAtom, checkCardListAtom, checkWinnerAtom } from '@/atom/boardAtom'
 import { useEffect } from 'react'
 
 /**
@@ -16,9 +16,15 @@ export const User = () => {
   const user = useAtomValue(userAtom)
 
   const resetSelectedUserCard = useSetAtom(resetUserSelectedCard)
+  const checkCardList = useSetAtom(checkCardListAtom)
+  const checkWinner = useSetAtom(checkWinnerAtom)
 
   useEffect(() => {
-    resetSelectedUserCard()
+    if (!board.isFinish) {
+      resetSelectedUserCard()
+      checkCardList()
+    }
+    checkWinner()
   }, [board.currentTurn])
 
   return (

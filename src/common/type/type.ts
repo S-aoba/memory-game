@@ -15,8 +15,9 @@ export type BoardType = {
   cardList: CardType[]
   selectedCard: CardType | null
   isGameStart: boolean
+  isFinish: boolean
   currentTurn: 'player' | 'cpu'
-  winner: 'player' | 'cpu' | null
+  winner: 'player' | 'cpu'
 }
 
 export type HandCardList = {

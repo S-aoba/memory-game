@@ -8,11 +8,11 @@ import { boardAtom, changeBoardStatusOfIsFlipAtom } from '@/atom/boardAtom'
 
 export const useCard = (currentCard: CardType) => {
   const board = useAtomValue(boardAtom)
+
   const changeBoardStatusOfIsFlip = useSetAtom(changeBoardStatusOfIsFlipAtom)
 
   const { firstUserTurn, secondUserTurn, userSelectionCard } = useUser(currentCard)
   const { cpuTurn } = useCpu()
-  // すべてのカードのstatusがnullになればゲーム終了のアラートを出す
 
   const handleTurn = async () => {
     if (!board.isFlip) return
@@ -23,14 +23,12 @@ export const useCard = (currentCard: CardType) => {
       return
     }
     // user２回目のカード選択
-    changeBoardStatusOfIsFlip() //isFlip -> false
+    changeBoardStatusOfIsFlip()
     await secondUserTurn()
 
     // cpuのターン
     await cpuTurn()
-    changeBoardStatusOfIsFlip() //isFlip -> true
-
-    // すべてのカードのstatusがnullになればゲーム終了のアラートを出す
+    changeBoardStatusOfIsFlip()
   }
   return { handleTurn }
 }

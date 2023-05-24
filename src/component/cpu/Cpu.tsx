@@ -1,9 +1,10 @@
 'use client'
 
-import { boardAtom } from '@/atom/boardAtom'
-import { useAtomValue } from 'jotai'
+import { boardAtom, checkCardListAtom } from '@/atom/boardAtom'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { cpuAtom } from '@/atom/cpuAtom'
 import { UserCard } from '../card'
+import { useEffect } from 'react'
 
 /**
  * @package
@@ -12,6 +13,18 @@ import { UserCard } from '../card'
 export const Cpu = () => {
   const board = useAtomValue(boardAtom)
   const cpu = useAtomValue(cpuAtom)
+
+  const checkCardList = useSetAtom(checkCardListAtom)
+
+  useEffect(() => {
+    if (board.isFinish) {
+      const winner = board.winner
+      alert(`勝者は${winner}です!`)
+      return
+    }
+    checkCardList()
+  }, [board.currentTurn, board.isFinish])
+
   return (
     <div
       className={` h-full max-h-[800px] w-11/12 max-w-[600px] ${

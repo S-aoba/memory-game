@@ -9,8 +9,9 @@ export const boardAtom = atom<BoardType>({
   cardList: CARD_LIST_DATA,
   selectedCard: null,
   isGameStart: false,
+  isFinish: false,
   currentTurn: 'player',
-  winner: null,
+  winner: 'player',
 })
 
 export const startGameAtom = atom(null, (get, set) => {
@@ -23,6 +24,47 @@ export const startGameAtom = atom(null, (get, set) => {
     isGameStart: true,
   }
   set(boardAtom, newState)
+})
+
+export const endGameAtom = atom(null, (get, set) => {
+  const currentBoard = get(boardAtom)
+  const newState = {
+    ...currentBoard,
+    isFinish: true,
+  }
+  set(boardAtom, newState)
+})
+
+export const checkCardListAtom = atom(null, (get, set) => {
+  const currentCardListLength = get(boardAtom).cardList.length
+  const currentCardList = get(boardAtom).cardList
+
+  const checkCardList = currentCardList.filter((card) => {
+    return card.status === null
+  })
+
+  const endGameCarListLength = checkCardList.length
+
+  if (currentCardListLength === endGameCarListLength) {
+    const currentBoard = get(boardAtom)
+    const newState = {
+      ...currentBoard,
+      isFinish: true,
+    }
+    set(boardAtom, newState)
+  }
+})
+
+export const checkWinnerAtom = atom(null, (get, set) => {
+  const userCardLength = get(userAtom).userCardList.length
+  const cpuCardLength = get(cpuAtom).cpuCardList.length
+
+  const winner = userCardLength > cpuCardLength ? 'player' : 'cpu'
+
+  set(boardAtom, {
+    ...get(boardAtom),
+    winner: winner,
+  })
 })
 
 export const changeTurnAtom = atom(null, (get, set) => {
