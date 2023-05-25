@@ -7,6 +7,7 @@ import {
   changeCardStatusAtom,
   changeTurnAtom,
 } from '@/atom/boardAtom'
+import { addMemoryCardListByUserAtom } from '@/atom/cpuAtom'
 import { selectedUserCardAtom } from '@/atom/userAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import type { CardType } from '@/common/type'
@@ -14,12 +15,13 @@ import type { CardType } from '@/common/type'
 export const useUser = (currentCard: CardType) => {
   const { flipAudio, userGetCardAudio } = useAudio()
 
+  const board = useAtomValue(boardAtom)
   const [userSelectionCard, selectUserCard] = useAtom(selectedUserCardAtom)
   const changeCardStatus = useSetAtom(changeCardStatusAtom)
   const addCardToUserCardList = useSetAtom(addCardToUserCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
   const changeBoardStatusOfIsFlip = useSetAtom(changeBoardStatusOfIsFlipAtom)
-  const board = useAtomValue(boardAtom)
+  const addMemoryCardList = useSetAtom(addMemoryCardListByUserAtom)
 
   const flipCard = () => {
     changeCardStatus(currentCard, { status: 'open' })
@@ -30,6 +32,7 @@ export const useUser = (currentCard: CardType) => {
   const firstUserTurn = async () => {
     selectUserCard(currentCard)
     flipCard()
+    addMemoryCardList(currentCard)
   }
 
   // user２回目のカード選択の処理関数
@@ -54,6 +57,8 @@ export const useUser = (currentCard: CardType) => {
         return setTimeout(resolve, 1000)
       })
       changeTurn()
+      addMemoryCardList(currentCard)
+
       return
     }
 
@@ -63,6 +68,7 @@ export const useUser = (currentCard: CardType) => {
       return setTimeout(resolve, 1000)
     })
     changeTurn()
+    addMemoryCardList(currentCard)
   }
 
   const handleUserTurn = async () => {
