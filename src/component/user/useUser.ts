@@ -1,32 +1,40 @@
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 
-import { addCardToUserCardListAtom, changeCardStatusAtom, changeTurnAtom } from '@/atom/boardAtom'
+import {
+  addCardToUserCardListAtom,
+  boardAtom,
+  changeBoardStatusOfIsFlipAtom,
+  changeCardStatusAtom,
+  changeTurnAtom,
+} from '@/atom/boardAtom'
 import { selectedUserCardAtom } from '@/atom/userAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import type { CardType } from '@/common/type'
 
-export const useUser = () => {
+export const useUser = (currentCard: CardType) => {
   const { flipAudio, userGetCardAudio } = useAudio()
 
   const [userSelectionCard, selectUserCard] = useAtom(selectedUserCardAtom)
   const changeCardStatus = useSetAtom(changeCardStatusAtom)
   const addCardToUserCardList = useSetAtom(addCardToUserCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
+  const changeBoardStatusOfIsFlip = useSetAtom(changeBoardStatusOfIsFlipAtom)
+  const board = useAtomValue(boardAtom)
 
-  const flipCard = (currentCard: CardType) => {
+  const flipCard = () => {
     changeCardStatus(currentCard, { status: 'open' })
     flipAudio.play()
   }
 
   // user１回目のカード選択の処理関数
-  const firstUserTurn = async (currentCard: CardType) => {
+  const firstUserTurn = async () => {
     selectUserCard(currentCard)
-    flipCard(currentCard)
+    flipCard()
   }
 
   // user２回目のカード選択の処理関数
-  const secondUserTurn = async (currentCard: CardType) => {
-    flipCard(currentCard)
+  const secondUserTurn = async () => {
+    flipCard()
 
     await new Promise((resolve) => {
       return setTimeout(resolve, 1000)
@@ -57,9 +65,24 @@ export const useUser = () => {
     changeTurn()
   }
 
+  const handleUserTurn = async () => {
+    if (!board.isFlip) return
+
+    if (userSelectionCard === null) {
+      // user１回目のカード選択
+      await firstUserTurn()
+      return
+    }
+    // user２回目のカード選択
+    changeBoardStatusOfIsFlip()
+    await secondUserTurn()
+    changeBoardStatusOfIsFlip()
+  }
+
   return {
     firstUserTurn,
     secondUserTurn,
     userSelectionCard,
+    handleUserTurn,
   }
 }
