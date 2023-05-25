@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai'
 
-import { addCardToCpuCardListAtom, boardAtom, changeCardStatusAtom, changeTurnAtom } from '@/atom/boardAtom'
+import { addCardToCpuCardListAtom, boardAtom, changeCardStatusByCpu, changeTurnAtom } from '@/atom/boardAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import type { CardType } from '@/common/type'
 
@@ -8,7 +8,7 @@ export const useCpu = () => {
   const { flipAudio, userGetCardAudio } = useAudio()
 
   const board = useAtomValue(boardAtom)
-  const changeCardStatus = useSetAtom(changeCardStatusAtom)
+  const changeCardStatus = useSetAtom(changeCardStatusByCpu)
   const addCardToCpuCardList = useSetAtom(addCardToCpuCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
 

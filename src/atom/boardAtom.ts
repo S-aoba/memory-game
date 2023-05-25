@@ -92,8 +92,7 @@ export const selectCardAtom = atom(
 export const changeCardStatusAtom = atom(null, (get, set, currentCard: CardType, status: Pick<CardType, 'status'>) => {
   const newStatus = status.status
   const cardList = get(boardAtom).cardList
-  const currentTurn = get(boardAtom).currentTurn
-  const selectedCard = currentTurn === 'player' ? get(userAtom).selectedCard : get(cpuAtom).selectedCard
+  const selectedCard = get(userAtom).selectedCard
 
   const newCardList = cardList.map((card) => {
     if (newStatus === 'open' && card.id === currentCard.id && card.mark === currentCard.mark) {
@@ -113,6 +112,25 @@ export const changeCardStatusAtom = atom(null, (get, set, currentCard: CardType,
       (newStatus === null && selectedCard && card.id === selectedCard.id && card.mark === selectedCard.mark) ||
       (newStatus === null && card.id === currentCard.id && card.mark === currentCard.mark)
     ) {
+      return {
+        ...card,
+        status: newStatus,
+      }
+    }
+    return card
+  })
+  set(boardAtom, {
+    ...get(boardAtom),
+    cardList: newCardList,
+  })
+})
+
+export const changeCardStatusByCpu = atom(null, (get, set, currentCard: CardType, status: Pick<CardType, 'status'>) => {
+  const newStatus = status.status
+  const cardList = get(boardAtom).cardList
+
+  const newCardList = cardList.map((card) => {
+    if (card.id === currentCard.id && card.mark === currentCard.mark) {
       return {
         ...card,
         status: newStatus,
