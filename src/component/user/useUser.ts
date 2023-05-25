@@ -57,7 +57,7 @@ export const useUser = (currentCard: CardType) => {
         return setTimeout(resolve, 1000)
       })
       changeTurn()
-      addMemoryCardList(currentCard)
+      addMemoryCardList(currentCard, userSelectionCard)
 
       return
     }

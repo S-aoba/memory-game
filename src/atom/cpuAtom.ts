@@ -7,9 +7,22 @@ export const cpuAtom = atom<CpuType>({
   cpuCardList: [],
 })
 
-export const addMemoryCardListByUserAtom = atom(null, (get, set, card: CardType) => {
+export const addMemoryCardListByUserAtom = atom(null, (get, set, card: CardType, prevCard?: CardType) => {
   const currentMemoryCardList = get(cpuAtom).memoryCardList
   const currentMemoryCardListLength = currentMemoryCardList.length
+
+  // userがペアカードの場合
+  if (prevCard?.id === card.id) {
+    const newMemoryCardList = currentMemoryCardList.filter((memoryCard) => {
+      return memoryCard.id !== prevCard.id
+    })
+    set(cpuAtom, {
+      ...get(cpuAtom),
+      memoryCardList: newMemoryCardList,
+    })
+    return
+  }
+
   if (currentMemoryCardListLength === 0) {
     const newMemoryCardList = [...currentMemoryCardList, card]
     set(cpuAtom, {
@@ -18,9 +31,10 @@ export const addMemoryCardListByUserAtom = atom(null, (get, set, card: CardType)
     })
     return
   }
+
   // memoryCardListの重複を削除
   const remainingMemoryCardList = currentMemoryCardList.filter((memoryCard) => {
-    return memoryCard.id !== card.id
+    return memoryCard.id !== card.id || memoryCard.status !== null
   })
   const newMemoryCardList = [...remainingMemoryCardList, card]
   set(cpuAtom, {
