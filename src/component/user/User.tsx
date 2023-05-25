@@ -20,19 +20,23 @@ export const User = () => {
   const user = useAtomValue(userAtom)
   const { checkIsGameOver, checkWinner } = useCard()
 
-  useEffect(() => {
-    if (board.currentTurn === 'player') {
-      const isGameOver: boolean = checkIsGameOver()
+  useEffect(
+    () => {
+      if (board.currentTurn === 'player') {
+        const isGameOver: boolean = checkIsGameOver()
 
-      if (isGameOver) {
-        const winner = checkWinner()
+        if (isGameOver) {
+          const winner = checkWinner()
+          resetSelectedUserCard()
+          alert(`${winner}`)
+          return
+        }
         resetSelectedUserCard()
-        alert(`${winner}`)
-        return
       }
-      resetSelectedUserCard()
-    }
-  }, [board.currentTurn])
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [board.currentTurn]
+  )
 
   return (
     <div

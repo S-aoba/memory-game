@@ -22,21 +22,25 @@ export const Cpu = () => {
   const { cpuTurn } = useCpu()
   const { checkIsGameOver, checkWinner } = useCard()
 
-  useEffect(() => {
-    if (board.currentTurn === 'cpu') {
-      changeBoardStatusOfIsFlip()
-      const isGameOver: boolean = checkIsGameOver()
-      if (isGameOver) {
-        const winner = checkWinner()
-        alert(`${winner}`)
-        return
-      }
-      cpuTurn()
-      return () => {
+  useEffect(
+    () => {
+      if (board.currentTurn === 'cpu') {
         changeBoardStatusOfIsFlip()
+        const isGameOver: boolean = checkIsGameOver()
+        if (isGameOver) {
+          const winner = checkWinner()
+          alert(`${winner}`)
+          return
+        }
+        cpuTurn()
+        return () => {
+          changeBoardStatusOfIsFlip()
+        }
       }
-    }
-  }, [board.currentTurn])
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [board.currentTurn]
+  )
 
   return (
     <div
