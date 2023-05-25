@@ -1,20 +1,26 @@
-import { changeCardStatusAtom, addCardToCpuCardListAtom, changeTurnAtom } from '@/atom/boardAtom'
-import { generateCpuCardAtom } from '@/atom/cpuAtom'
+import { changeCardStatusAtom, addCardToCpuCardListAtom, changeTurnAtom, boardAtom } from '@/atom/boardAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import { CardType } from '@/common/type'
-import { useSetAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 
 export const useCpu = () => {
   const { flipAudio, userGetCardAudio } = useAudio()
 
+  const board = useAtomValue(boardAtom)
   const changeCardStatus = useSetAtom(changeCardStatusAtom)
   const addCardToCpuCardList = useSetAtom(addCardToCpuCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
-  const generateCpuCard = useSetAtom(generateCpuCardAtom)
 
   const flipCard = (firstCard: CardType) => {
     changeCardStatus(firstCard, { status: 'open' })
     flipAudio.play()
+  }
+
+  const generateCpuCard = () => {
+    const cardList = board.cardList
+    const availableCardList = cardList.filter((card) => card.status !== null && card.status !== 'open')
+    const randomCard = availableCardList[Math.floor(Math.random() * availableCardList.length)]
+    return randomCard
   }
 
   const cpuTurn = async () => {
