@@ -18,6 +18,7 @@ export const addMemoryCardListByUserAtom = atom(null, (get, set, card: CardType)
     })
     return
   }
+  // memoryCardListの重複を削除
   const remainingMemoryCardList = currentMemoryCardList.filter((memoryCard) => {
     return memoryCard.id !== card.id
   })
