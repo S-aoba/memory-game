@@ -9,9 +9,22 @@ export const cpuAtom = atom<CpuType>({
 
 export const addMemoryCardListByUserAtom = atom(null, (get, set, card: CardType) => {
   const currentMemoryCardList = get(cpuAtom).memoryCardList
-  const newMemoryCardList = [...currentMemoryCardList, card]
+  const currentMemoryCardListLength = currentMemoryCardList.length
+  if (currentMemoryCardListLength === 0) {
+    const newMemoryCardList = [...currentMemoryCardList, card]
+    set(cpuAtom, {
+      ...get(cpuAtom),
+      memoryCardList: newMemoryCardList,
+    })
+    return
+  }
+  const remainingMemoryCardList = currentMemoryCardList.filter((memoryCard) => {
+    return memoryCard.id !== card.id
+  })
+  const newMemoryCardList = [...remainingMemoryCardList, card]
   set(cpuAtom, {
     ...get(cpuAtom),
     memoryCardList: newMemoryCardList,
   })
+  return
 })
