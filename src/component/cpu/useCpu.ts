@@ -27,7 +27,8 @@ export const useCpu = () => {
     const firstCard = availableFlipCardList[firstCardIndex]
 
     // ２枚めのカードの取得
-    const remainingCardList = cardList.filter((card) => card !== firstCard)
+    const remainingCardList = availableFlipCardList.filter((card) => card !== firstCard)
+
     const secondCardIndex = Math.floor(Math.random() * remainingCardList.length)
     const secondCard = remainingCardList[secondCardIndex]
 
