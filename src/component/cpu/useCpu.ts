@@ -12,8 +12,8 @@ export const useCpu = () => {
   const addCardToCpuCardList = useSetAtom(addCardToCpuCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
 
-  const flipCard = (firstCard: CardType) => {
-    changeCardStatus(firstCard, { status: 'open' })
+  const flipCard = (card: CardType) => {
+    changeCardStatus(card, { status: 'open' })
     flipAudio.play()
   }
 
