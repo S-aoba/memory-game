@@ -14,7 +14,10 @@ export type Winner = 'player' | 'cpu' | 'draw'
 
 type CurrentTurn = 'player' | 'cpu'
 
+type Mode = 'easy' | 'normal' | 'hard'
+
 export type BoardType = {
+  mode: Mode
   isFlip: boolean
   cardList: CardType[]
   selectedCard: CardType | null

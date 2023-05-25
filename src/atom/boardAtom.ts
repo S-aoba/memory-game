@@ -7,6 +7,7 @@ import { cpuAtom } from './cpuAtom'
 import { userAtom } from './userAtom'
 
 export const boardAtom = atom<BoardType>({
+  mode: 'easy',
   isFlip: true,
   cardList: CARD_LIST_DATA,
   selectedCard: null,
