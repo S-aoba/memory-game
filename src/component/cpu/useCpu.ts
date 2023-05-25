@@ -17,7 +17,7 @@ export const useCpu = () => {
     flipAudio.play()
   }
 
-  const generateCpuCard = () => {
+  const selectCpuCard = () => {
     const cardList = board.cardList
     const availableFlipCardList = cardList.filter((card) => {
       return card.status === 'close'
@@ -41,10 +41,10 @@ export const useCpu = () => {
   }
 
   const cpuTurn = async () => {
-    const selectedCpuCard = generateCpuCard()
+    const cpuCardList = selectCpuCard()
 
-    const firstCpuCard = selectedCpuCard[0]
-    const secondCpuCard = selectedCpuCard[1]
+    const firstCpuCard = cpuCardList[0]
+    const secondCpuCard = cpuCardList[1]
 
     await new Promise((resolve) => {
       return setTimeout(resolve, 1000)
