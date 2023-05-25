@@ -1,8 +1,10 @@
 'use client'
 
 import { useAtomValue } from 'jotai'
-import { Card } from './Card'
+
 import { boardAtom } from '@/atom/boardAtom'
+
+import { Card } from './Card'
 
 export const CardList = () => {
   const board = useAtomValue(boardAtom)

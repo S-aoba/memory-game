@@ -1,9 +1,19 @@
 'use client'
-import { NextPage } from 'next'
-import { FrontCard } from './FrontCard'
+import type { NextPage } from 'next'
+
+import type { CardType } from '@/common/type'
+
 import { BackCard } from './BackCard'
-import { CardType } from '@/common/type'
+import { FrontCard } from './FrontCard'
 
 export const Card: NextPage<CardType> = ({ id, mark, status }) => {
-  return <>{status === 'open' ? <FrontCard id={id} mark={mark} status={status}/> : <BackCard id={id} mark={mark} status={status} />}</>
+  return (
+    <>
+      {status === 'open' ? (
+        <FrontCard id={id} mark={mark} status={status} />
+      ) : (
+        <BackCard id={id} mark={mark} status={status} />
+      )}
+    </>
+  )
 }

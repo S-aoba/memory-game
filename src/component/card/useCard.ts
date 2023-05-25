@@ -1,9 +1,11 @@
-import { CardType } from '@/common/type'
-import { useUser } from '../user/useUser'
 import { useAtomValue, useSetAtom } from 'jotai'
+
 import { boardAtom, changeBoardStatusOfIsFlipAtom, setWinnerAtom } from '@/atom/boardAtom'
 import { cpuAtom } from '@/atom/cpuAtom'
 import { userAtom } from '@/atom/userAtom'
+import type { CardType } from '@/common/type'
+
+import { useUser } from '../user/useUser'
 
 // atomの状態の変更に関してはboardAtom.tsを参照
 
@@ -33,7 +35,9 @@ export const useCard = () => {
 
   const checkIsGameOver = (): boolean => {
     const currentCardList = board.cardList
-    const isGameOver = currentCardList.every((card) => card.status === null)
+    const isGameOver = currentCardList.every((card) => {
+      return card.status === null
+    })
     return isGameOver
   }
 

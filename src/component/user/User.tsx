@@ -1,10 +1,12 @@
 'use client'
 
-import { resetUserSelectedCard, userAtom } from '@/atom/userAtom'
-import { HandCard } from '../card'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { boardAtom } from '@/atom/boardAtom'
 import { useEffect } from 'react'
+
+import { boardAtom } from '@/atom/boardAtom'
+import { resetUserSelectedCard, userAtom } from '@/atom/userAtom'
+
+import { HandCard } from '../card'
 import { useCard } from '../card/useCard'
 
 /**

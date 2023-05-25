@@ -1,12 +1,14 @@
 'use client'
 
-import { boardAtom, changeBoardStatusOfIsFlipAtom } from '@/atom/boardAtom'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { cpuAtom } from '@/atom/cpuAtom'
-import { HandCard } from '../card'
 import { useEffect } from 'react'
-import { useCpu } from './useCpu'
+
+import { boardAtom, changeBoardStatusOfIsFlipAtom } from '@/atom/boardAtom'
+import { cpuAtom } from '@/atom/cpuAtom'
+
+import { HandCard } from '../card'
 import { useCard } from '../card/useCard'
+import { useCpu } from './useCpu'
 
 /**
  * @package

@@ -1,5 +1,6 @@
-import { CardType, CpuType } from '@/common/type/type'
 import { atom } from 'jotai'
+
+import type { CardType, CpuType } from '@/common/type/type'
 
 export const cpuAtom = atom<CpuType>({
   selectedCard: null,
@@ -7,7 +8,9 @@ export const cpuAtom = atom<CpuType>({
 })
 
 export const selectedCpuCardAtom = atom(
-  (get) => get(cpuAtom).selectedCard,
+  (get) => {
+    return get(cpuAtom).selectedCard
+  },
   (get, set, currentCard: CardType) => {
     set(cpuAtom, {
       ...get(cpuAtom),

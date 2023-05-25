@@ -1,4 +1,4 @@
-import { CardType } from '../type'
+import type { CardType } from '../type'
 
 /**
  * @package

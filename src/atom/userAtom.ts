@@ -1,5 +1,6 @@
-import { CardType, UserType } from '@/common/type'
 import { atom } from 'jotai'
+
+import type { CardType, UserType } from '@/common/type'
 
 export const userAtom = atom<UserType>({
   name: '',
@@ -8,7 +9,9 @@ export const userAtom = atom<UserType>({
 })
 
 export const selectedUserCardAtom = atom(
-  (get) => get(userAtom).selectedCard,
+  (get) => {
+    return get(userAtom).selectedCard
+  },
   (get, set, currentCard: CardType) => {
     set(userAtom, {
       ...get(userAtom),

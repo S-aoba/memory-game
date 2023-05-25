@@ -1,8 +1,9 @@
-import { changeCardStatusAtom, changeTurnAtom, addCardToUserCardListAtom } from '@/atom/boardAtom'
+import { useAtom, useSetAtom } from 'jotai'
+
+import { addCardToUserCardListAtom, changeCardStatusAtom, changeTurnAtom } from '@/atom/boardAtom'
 import { selectedUserCardAtom } from '@/atom/userAtom'
 import { useAudio } from '@/common/hook/useAudio'
-import { CardType } from '@/common/type'
-import { useAtom, useSetAtom } from 'jotai'
+import type { CardType } from '@/common/type'
 
 export const useUser = () => {
   const { flipAudio, userGetCardAudio } = useAudio()
@@ -27,7 +28,9 @@ export const useUser = () => {
   const secondUserTurn = async (currentCard: CardType) => {
     flipCard(currentCard)
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => {
+      return setTimeout(resolve, 1000)
+    })
 
     if (!userSelectionCard) return
 
@@ -39,14 +42,18 @@ export const useUser = () => {
       addCardToUserCardList(currentCard)
       userGetCardAudio.play()
 
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => {
+        return setTimeout(resolve, 1000)
+      })
       changeTurn()
       return
     }
 
     // ペアではない場合
     changeCardStatus(currentCard, { status: 'close' })
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => {
+      return setTimeout(resolve, 1000)
+    })
     changeTurn()
   }
 

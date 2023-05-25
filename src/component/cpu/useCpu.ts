@@ -1,7 +1,8 @@
-import { changeCardStatusAtom, addCardToCpuCardListAtom, changeTurnAtom, boardAtom } from '@/atom/boardAtom'
-import { useAudio } from '@/common/hook/useAudio'
-import { CardType } from '@/common/type'
 import { useAtomValue, useSetAtom } from 'jotai'
+
+import { addCardToCpuCardListAtom, boardAtom, changeCardStatusAtom, changeTurnAtom } from '@/atom/boardAtom'
+import { useAudio } from '@/common/hook/useAudio'
+import type { CardType } from '@/common/type'
 
 export const useCpu = () => {
   const { flipAudio, userGetCardAudio } = useAudio()
@@ -18,7 +19,9 @@ export const useCpu = () => {
 
   const generateCpuCard = () => {
     const cardList = board.cardList
-    const availableFlipCardList = cardList.filter((card) => card.status === 'close')
+    const availableFlipCardList = cardList.filter((card) => {
+      return card.status === 'close'
+    })
 
     const returnCpuCardList: CardType[] = []
     // 1枚目のカードの取得
@@ -27,7 +30,9 @@ export const useCpu = () => {
     const firstCard = availableFlipCardList[firstCardIndex]
 
     // ２枚めのカードの取得
-    const remainingCardList = availableFlipCardList.filter((card) => card !== firstCard)
+    const remainingCardList = availableFlipCardList.filter((card) => {
+      return card !== firstCard
+    })
 
     const secondCardIndex = Math.floor(Math.random() * remainingCardList.length)
     const secondCard = remainingCardList[secondCardIndex]
@@ -41,13 +46,19 @@ export const useCpu = () => {
     const firstCpuCard = selectedCpuCard[0]
     const secondCpuCard = selectedCpuCard[1]
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => {
+      return setTimeout(resolve, 1000)
+    })
     flipCard(firstCpuCard)
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => {
+      return setTimeout(resolve, 1000)
+    })
     flipCard(secondCpuCard)
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => {
+      return setTimeout(resolve, 1000)
+    })
 
     const isPair = firstCpuCard.id === secondCpuCard.id
 
@@ -60,7 +71,9 @@ export const useCpu = () => {
 
       userGetCardAudio.play()
 
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => {
+        return setTimeout(resolve, 1000)
+      })
       changeTurn()
       return
     }
@@ -68,7 +81,9 @@ export const useCpu = () => {
     changeCardStatus(firstCpuCard, { status: 'close' })
     changeCardStatus(secondCpuCard, { status: 'close' })
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => {
+      return setTimeout(resolve, 1000)
+    })
     changeTurn()
     return
   }

@@ -1,7 +1,8 @@
 'use client'
 
-import { HandCardList } from '@/common/type/type'
 import { IconClubs, IconDiamond, IconHeart, IconSpade } from '@tabler/icons-react'
+
+import type { HandCardList } from '@/common/type/type'
 
 /**
  * @package

@@ -1,8 +1,10 @@
-import { CARD_LIST_DATA } from '@/common/card-data'
-import { BoardType, CardType } from '@/common/type'
 import { atom } from 'jotai'
-import { userAtom } from './userAtom'
+
+import { CARD_LIST_DATA } from '@/common/card-data'
+import type { BoardType, CardType } from '@/common/type'
+
 import { cpuAtom } from './cpuAtom'
+import { userAtom } from './userAtom'
 
 export const boardAtom = atom<BoardType>({
   isFlip: true,
@@ -16,7 +18,9 @@ export const boardAtom = atom<BoardType>({
 
 export const startGameAtom = atom(null, (get, set) => {
   const currentBoard = get(boardAtom)
-  const shuffleCardList = currentBoard.cardList.sort(() => Math.random() - 0.5)
+  const shuffleCardList = currentBoard.cardList.sort(() => {
+    return Math.random() - 0.5
+  })
 
   const newState = {
     ...currentBoard,
@@ -70,7 +74,9 @@ export const resetSelectedCardAtom = atom(null, (get, set) => {
 })
 
 export const selectCardAtom = atom(
-  (get) => get(boardAtom).selectedCard,
+  (get) => {
+    return get(boardAtom).selectedCard
+  },
   (get, set, currentCard: CardType) => {
     if (!currentCard) return
     set(boardAtom, {

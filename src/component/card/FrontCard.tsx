@@ -1,8 +1,9 @@
 'use client'
 
-import { CardType } from '@/common/type'
 import { IconClubs, IconDiamond, IconHeart, IconSpade } from '@tabler/icons-react'
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
+
+import type { CardType } from '@/common/type'
 
 /**
  * @package

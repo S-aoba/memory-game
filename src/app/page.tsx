@@ -1,8 +1,9 @@
 'use client'
 
-import { startGameAtom } from '@/atom/boardAtom'
 import { useSetAtom } from 'jotai'
 import Link from 'next/link'
+
+import { startGameAtom } from '@/atom/boardAtom'
 
 export default function StartPage() {
   const startGame = useSetAtom(startGameAtom)
