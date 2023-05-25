@@ -36,6 +36,5 @@ export type UserType = {
 }
 
 export type CpuType = {
-  selectedCard: CardType | null
   cpuCardList: HandCardList[]
 }
