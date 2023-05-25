@@ -18,18 +18,30 @@ export const useCpu = () => {
 
   const generateCpuCard = () => {
     const cardList = board.cardList
-    const availableCardList = cardList.filter((card) => card.status !== null && card.status !== 'open')
-    const randomCard = availableCardList[Math.floor(Math.random() * availableCardList.length)]
-    return randomCard
+    const availableFlipCardList = cardList.filter((card) => card.status === 'close')
+
+    const returnCpuCardList: CardType[] = []
+    // 1枚目のカードの取得
+    const firstCardIndex = Math.floor(Math.random() * availableFlipCardList.length)
+    // availableFlipCardListのrandomFirstCardIndex番目のカードを取得
+    const firstCard = availableFlipCardList[firstCardIndex]
+
+    // ２枚めのカードの取得
+    const remainingCardList = cardList.filter((card) => card !== firstCard)
+    const secondCardIndex = Math.floor(Math.random() * remainingCardList.length)
+    const secondCard = remainingCardList[secondCardIndex]
+
+    return [...returnCpuCardList, firstCard, secondCard]
   }
 
   const cpuTurn = async () => {
-    const firstCpuCard = generateCpuCard()
+    const selectedCpuCard = generateCpuCard()
+
+    const firstCpuCard = selectedCpuCard[0]
+    const secondCpuCard = selectedCpuCard[1]
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
     flipCard(firstCpuCard)
-
-    const secondCpuCard: CardType = generateCpuCard()
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
     flipCard(secondCpuCard)
