@@ -17,7 +17,7 @@ export const boardAtom = atom<BoardType>({
   winner: 'player',
 })
 
-export const startGameAtom = atom(null, (get, set) => {
+export const startGameAtom = atom(null, (get, set, mode: 'easy' | 'normal' | 'hard') => {
   const currentBoard = get(boardAtom)
   const shuffleCardList = currentBoard.cardList.sort(() => {
     return Math.random() - 0.5
@@ -25,6 +25,7 @@ export const startGameAtom = atom(null, (get, set) => {
 
   const newState = {
     ...currentBoard,
+    mode,
     cardList: shuffleCardList,
     isGameStart: true,
   }
