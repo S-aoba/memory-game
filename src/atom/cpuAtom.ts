@@ -50,3 +50,27 @@ export const resetMemoryCardListAtom = atom(null, (get, set) => {
     memoryCardList: [],
   })
 })
+
+export const addMemoryCardListByCpuAtom = atom(null, (get, set, firstCard: CardType, secondCard: CardType) => {
+  const currentMemoryCardList = get(cpuAtom).memoryCardList
+
+  if (firstCard.id === secondCard.id) {
+    const remainingCardList = currentMemoryCardList.filter((memoryCard) => {
+      return (
+        (memoryCard.id !== firstCard.id && memoryCard.mark !== firstCard.mark) ||
+        (memoryCard.id !== secondCard.id && memoryCard.mark !== secondCard.mark)
+      )
+    })
+    set(cpuAtom, {
+      ...get(cpuAtom),
+      memoryCardList: remainingCardList,
+    })
+    return
+  }
+
+  const newMemoryCardList = [...currentMemoryCardList, firstCard, secondCard]
+  set(cpuAtom, {
+    ...get(cpuAtom),
+    memoryCardList: newMemoryCardList,
+  })
+})
