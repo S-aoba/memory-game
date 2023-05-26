@@ -82,6 +82,7 @@ export const useCpu = () => {
     // memoryCardListの中身を探索して1枚目のカードと同じIDかつ異なるマーク(例: ♡1 ♧1)があるかないかを判定する
     const currentMemoryCardList = cpu.memoryCardList
     const secondCard = currentMemoryCardList.find((card) => {
+      if (!card) return
       return card.id === firstCard.id && card.mark !== firstCard.mark
     })
 
