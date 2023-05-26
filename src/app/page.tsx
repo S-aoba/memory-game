@@ -35,7 +35,7 @@ export default function StartPage() {
       </Link>
 
       <Link href={'/board'}>
-        <button disabled onClick={handleHardMode} className=' rounded-lg bg-red-500 px-4 py-2 text-white'>
+        <button onClick={handleHardMode} className=' rounded-lg bg-red-500 px-4 py-2 text-white'>
           Hard
         </button>
       </Link>
