@@ -22,8 +22,15 @@ export const useCpu = () => {
 
   const selectCpuCard = () => {
     const cardList = board.cardList
+
+    // cardのstatus がcloseであると同時にmemoryCardListに存在していないカードのリストの取得 todo:リファクタリング必要
     const availableFlipCardList = cardList.filter((card) => {
-      return card.status === 'close'
+      return (
+        card.status === 'close' &&
+        !cpu.memoryCardList.some((memoryCard) => {
+          return memoryCard.id === card.id && memoryCard.mark === card.mark
+        })
+      )
     })
 
     const returnCpuCardList: CardType[] = []
