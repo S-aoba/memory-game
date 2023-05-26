@@ -1,6 +1,7 @@
 import { useAtomValue, useSetAtom } from 'jotai'
 
 import { addCardToCpuCardListAtom, boardAtom, changeCardStatusByCpu, changeTurnAtom } from '@/atom/boardAtom'
+import { cpuAtom, resetMemoryCardListAtom } from '@/atom/cpuAtom'
 import { useAudio } from '@/common/hook/useAudio'
 import type { CardType } from '@/common/type'
 
@@ -8,9 +9,11 @@ export const useCpu = () => {
   const { flipAudio, userGetCardAudio } = useAudio()
 
   const board = useAtomValue(boardAtom)
+  const cpu = useAtomValue(cpuAtom)
   const changeCardStatus = useSetAtom(changeCardStatusByCpu)
   const addCardToCpuCardList = useSetAtom(addCardToCpuCardListAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
+  const resetMemoryCardList = useSetAtom(resetMemoryCardListAtom)
 
   const flipCard = (card: CardType) => {
     changeCardStatus(card, { status: 'open' })
@@ -34,9 +37,20 @@ export const useCpu = () => {
       return card !== firstCard
     })
 
-    const secondCardIndex = Math.floor(Math.random() * remainingCardList.length)
-    const secondCard = remainingCardList[secondCardIndex]
+    // memoryCardListの中身を探索して1枚目のカードと同じIDかつ異なるマーク(例: ♡1 ♧1)があるかないかを判定する
+    const currentMemoryCardList = cpu.memoryCardList
+    const secondCard = currentMemoryCardList.find((card) => {
+      return card.id === firstCard.id && card.mark !== firstCard.mark
+    })
 
+    // memoryCardListの中になければ、ランダムで2枚めを開く
+    if (!secondCard) {
+      const secondCardIndex = Math.floor(Math.random() * remainingCardList.length)
+      const secondCard = remainingCardList[secondCardIndex]
+      resetMemoryCardList()
+      return [...returnCpuCardList, firstCard, secondCard]
+    }
+    resetMemoryCardList()
     return [...returnCpuCardList, firstCard, secondCard]
   }
 
