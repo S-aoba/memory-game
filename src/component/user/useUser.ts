@@ -32,7 +32,9 @@ export const useUser = (currentCard: CardType) => {
   const firstUserTurn = async () => {
     selectUserCard(currentCard)
     flipCard()
-    addMemoryCardList(currentCard)
+    if (board.mode === 'easy') {
+      addMemoryCardList(currentCard)
+    }
   }
 
   // user２回目のカード選択の処理関数
@@ -57,7 +59,9 @@ export const useUser = (currentCard: CardType) => {
         return setTimeout(resolve, 1000)
       })
       changeTurn()
-      addMemoryCardList(currentCard, userSelectionCard)
+      if (board.mode === 'easy') {
+        addMemoryCardList(currentCard, userSelectionCard)
+      }
 
       return
     }
@@ -68,7 +72,9 @@ export const useUser = (currentCard: CardType) => {
       return setTimeout(resolve, 1000)
     })
     changeTurn()
-    addMemoryCardList(currentCard)
+    if (board.mode === 'easy') {
+      addMemoryCardList(currentCard)
+    }
   }
 
   const handleUserTurn = async () => {
