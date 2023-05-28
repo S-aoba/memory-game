@@ -1,13 +1,11 @@
 'use client'
 
-import { useAtomValue, useSetAtom } from 'jotai'
-import { useEffect } from 'react'
+import { useAtomValue } from 'jotai'
 
 import { boardAtom } from '@/atom/boardAtom'
-import { resetUserSelectedCard, userAtom } from '@/atom/userAtom'
+import { userAtom } from '@/atom/userAtom'
 
 import { HandCard } from '../card'
-import { useCard } from '../card/useCard'
 
 /**
  * @package
@@ -15,28 +13,7 @@ import { useCard } from '../card/useCard'
 
 export const User = () => {
   const board = useAtomValue(boardAtom)
-  const resetSelectedUserCard = useSetAtom(resetUserSelectedCard)
-
   const user = useAtomValue(userAtom)
-  const { checkIsGameOver, checkWinner } = useCard()
-
-  useEffect(
-    () => {
-      if (board.currentTurn === 'player') {
-        const isGameOver: boolean = checkIsGameOver()
-
-        if (isGameOver) {
-          const winner = checkWinner()
-          resetSelectedUserCard()
-          alert(`${winner}`)
-          return
-        }
-        resetSelectedUserCard()
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [board.currentTurn]
-  )
 
   return (
     <div

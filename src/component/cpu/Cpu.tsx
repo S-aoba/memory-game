@@ -1,14 +1,11 @@
 'use client'
 
-import { useAtomValue, useSetAtom } from 'jotai'
-import { useEffect } from 'react'
+import { useAtomValue } from 'jotai'
 
-import { boardAtom, changeBoardStatusOfIsFlipAtom } from '@/atom/boardAtom'
+import { boardAtom } from '@/atom/boardAtom'
 import { cpuAtom } from '@/atom/cpuAtom'
 
 import { HandCard } from '../card'
-import { useCard } from '../card/useCard'
-import { useCpu } from './useCpu'
 
 /**
  * @package
@@ -17,30 +14,6 @@ import { useCpu } from './useCpu'
 export const Cpu = () => {
   const board = useAtomValue(boardAtom)
   const cpu = useAtomValue(cpuAtom)
-  const changeBoardStatusOfIsFlip = useSetAtom(changeBoardStatusOfIsFlipAtom)
-
-  const { cpuTurn } = useCpu()
-  const { checkIsGameOver, checkWinner } = useCard()
-
-  useEffect(
-    () => {
-      if (board.currentTurn === 'cpu') {
-        changeBoardStatusOfIsFlip()
-        const isGameOver: boolean = checkIsGameOver()
-        if (isGameOver) {
-          const winner = checkWinner()
-          alert(`${winner}`)
-          return
-        }
-        cpuTurn()
-        return () => {
-          changeBoardStatusOfIsFlip()
-        }
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [board.currentTurn]
-  )
 
   return (
     <div
