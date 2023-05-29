@@ -1,9 +1,11 @@
 'use client'
 
-import { useAtomValue } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { useEffect } from 'react'
 
-import { boardAtom } from '@/atom/boardAtom'
+import { boardAtom, changeIsFlipAtom } from '@/atom/boardAtom'
 import { cpuAtom } from '@/atom/cpuAtom'
+import { useCpu } from '@/common/hook/useCPU'
 
 import { HandCard } from '../card'
 
@@ -14,6 +16,22 @@ import { HandCard } from '../card'
 export const Cpu = () => {
   const board = useAtomValue(boardAtom)
   const cpu = useAtomValue(cpuAtom)
+
+  const { cpuTurn } = useCpu()
+
+  const changeIsFlip = useSetAtom(changeIsFlipAtom)
+
+  useEffect(
+    () => {
+      if (board.currentTurn === 'cpu') {
+        // ユーザーがカードをクリックできないようにする
+        changeIsFlip()
+        cpuTurn()
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [board.currentTurn]
+  )
 
   return (
     <div
