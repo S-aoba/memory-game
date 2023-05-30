@@ -67,18 +67,24 @@ export const checkIsNotPairCardInMemoryAtom = atom(null, (get, set, secondCard: 
     })
   }
 
-  const isExistCard = memoryCardList.some((memoryCard: CardType) => {
-    return (
-      (memoryCard.id === firstCard.id && memoryCard.mark === firstCard.mark) ||
-      (memoryCard.id === secondCard.id && memoryCard.mark === secondCard.mark)
-    )
+  const isFirstCardExistCard = memoryCardList.some((memoryCard: CardType) => {
+    return memoryCard.id === firstCard.id && memoryCard.mark === firstCard.mark
   })
 
-  if (isExistCard) return
-  const newMemoryCard = [...memoryCardList, firstCard, secondCard]
+  if (isFirstCardExistCard) return
   set(cpuAtom, {
     ...get(cpuAtom),
-    memoryCardList: newMemoryCard,
+    memoryCardList: [...memoryCardList, firstCard],
+  })
+
+  const isSecondCardExistCard = memoryCardList.some((memoryCard: CardType) => {
+    return memoryCard.id === secondCard.id && memoryCard.mark === secondCard.mark
+  })
+
+  if (isSecondCardExistCard) return
+  set(cpuAtom, {
+    ...get(cpuAtom),
+    memoryCardList: [...memoryCardList, secondCard],
   })
 })
 
