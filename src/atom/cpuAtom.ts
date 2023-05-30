@@ -9,7 +9,7 @@ export const cpuAtom = atom<CpuType>({
 
 export const removeCardInMemoryAtom = atom(null, (get, set, targetCard: CardType) => {
   const newMemoryCard = get(cpuAtom).memoryCardList.filter((memoryCard: CardType) => {
-    return memoryCard.id === targetCard.id && memoryCard.mark === targetCard.mark
+    return memoryCard !== targetCard
   })
   set(cpuAtom, {
     ...get(cpuAtom),
@@ -32,5 +32,12 @@ export const addCpuCardListAtom = atom(null, (get, set, firstCard: CardType, sec
   set(cpuAtom, {
     ...get(cpuAtom),
     cpuCardList: [...get(cpuAtom).cpuCardList, newCpuCardList],
+  })
+})
+
+export const addMemoryAtom = atom(null, (get, set, firstCard: CardType, secondCard: CardType) => {
+  set(cpuAtom, {
+    ...get(cpuAtom),
+    memoryCardList: [...get(cpuAtom).memoryCardList, firstCard, secondCard],
   })
 })

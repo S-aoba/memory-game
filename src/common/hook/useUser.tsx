@@ -17,7 +17,6 @@ export const useUser = () => {
       firstUserTurnEasyMode(firstCard)
       return
     } else if (gameMode === 'normal') {
-      console.log('normal')
       firstUserTurnNormalMode(firstCard)
       return
     } else if (gameMode === 'hard') {
@@ -32,7 +31,6 @@ export const useUser = () => {
       secondUserTurnEasyMode(secondCard)
       return
     } else if (gameMode === 'normal') {
-      console.log('normal')
       secondUserTurnNormalMode(secondCard)
       return
     } else if (gameMode === 'hard') {

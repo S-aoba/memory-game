@@ -56,54 +56,54 @@ export const CARD_LIST_DATA: CardType[] = [
     mark: 'spade',
     status: 'close',
   },
-  // {
-  //   id: 1,
-  //   mark: 'diamond',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 2,
-  //   mark: 'diamond',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 3,
-  //   mark: 'diamond',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 4,
-  //   mark: 'diamond',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 5,
-  //   mark: 'diamond',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 1,
-  //   mark: 'club',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 2,
-  //   mark: 'club',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 3,
-  //   mark: 'club',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 4,
-  //   mark: 'club',
-  //   status: 'close',
-  // },
-  // {
-  //   id: 5,
-  //   mark: 'club',
-  //   status: 'close',
-  // },
+  {
+    id: 1,
+    mark: 'diamond',
+    status: 'close',
+  },
+  {
+    id: 2,
+    mark: 'diamond',
+    status: 'close',
+  },
+  {
+    id: 3,
+    mark: 'diamond',
+    status: 'close',
+  },
+  {
+    id: 4,
+    mark: 'diamond',
+    status: 'close',
+  },
+  {
+    id: 5,
+    mark: 'diamond',
+    status: 'close',
+  },
+  {
+    id: 1,
+    mark: 'club',
+    status: 'close',
+  },
+  {
+    id: 2,
+    mark: 'club',
+    status: 'close',
+  },
+  {
+    id: 3,
+    mark: 'club',
+    status: 'close',
+  },
+  {
+    id: 4,
+    mark: 'club',
+    status: 'close',
+  },
+  {
+    id: 5,
+    mark: 'club',
+    status: 'close',
+  },
 ]

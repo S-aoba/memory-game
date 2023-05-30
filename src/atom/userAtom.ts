@@ -34,16 +34,16 @@ export const checkPairCardInMemoryAtom = atom(null, (get, set, secondCard: CardT
 
   const isExistCard = memoryCardList.some((memoryCard: CardType) => {
     return (
-      (memoryCard.id === firstCard.id && memoryCard.mark === firstCard.mark) ||
-      (memoryCard.id === secondCard.id && memoryCard.mark === secondCard.mark)
+      (memoryCard.id !== firstCard.id && memoryCard.mark !== firstCard.mark) ||
+      (memoryCard.id !== secondCard.id && memoryCard.mark !== secondCard.mark)
     )
   })
 
   if (!isExistCard) return
   const removeCardList = memoryCardList.filter((memoryCard: CardType) => {
     return (
-      (memoryCard.id === firstCard.id && memoryCard.mark === firstCard.mark) ||
-      (memoryCard.id === secondCard.id && memoryCard.mark === secondCard.mark)
+      (memoryCard.id !== firstCard.id && memoryCard.mark !== firstCard.mark) ||
+      (memoryCard.id !== secondCard.id && memoryCard.mark !== secondCard.mark)
     )
   })
   set(cpuAtom, {
@@ -82,7 +82,7 @@ export const checkIsNotPairCardInMemoryAtom = atom(null, (get, set, secondCard: 
   })
 })
 
-export const addUserCardListAtom = atom(null, (get, set, firstCard: CardType, secondCard:CardType) => {
+export const addUserCardListAtom = atom(null, (get, set, firstCard: CardType, secondCard: CardType) => {
   const newCpuCardList = {
     first: firstCard,
     second: secondCard,
