@@ -4,11 +4,13 @@ import { boardAtom } from '@/atom/boardAtom'
 
 import type { CardType } from '../type'
 import { useEasyMode } from './useEasyMode'
+import { useNormalMode } from './useNormalMode'
 
 export const useUser = () => {
   const gameMode = useAtomValue(boardAtom).mode
 
   const { firstUserTurnEasyMode, secondUserTurnEasyMode } = useEasyMode()
+  const { firstUserTurnNormalMode, secondUserTurnNormalMode } = useNormalMode()
 
   const userFirstTurn = (firstCard: CardType) => {
     if (gameMode === 'easy') {
@@ -16,6 +18,7 @@ export const useUser = () => {
       return
     } else if (gameMode === 'normal') {
       console.log('normal')
+      firstUserTurnNormalMode(firstCard)
       return
     } else if (gameMode === 'hard') {
       console.log('hard')
@@ -30,6 +33,7 @@ export const useUser = () => {
       return
     } else if (gameMode === 'normal') {
       console.log('normal')
+      secondUserTurnNormalMode(secondCard)
       return
     } else if (gameMode === 'hard') {
       console.log('hard')
