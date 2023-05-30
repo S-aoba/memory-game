@@ -59,6 +59,7 @@ export const checkIsNotPairCardInMemoryAtom = atom(null, (get, set, secondCard: 
 
   if (!firstCard) return
 
+  // easyModeの場合は、memoryCardListが空の状態でしかないので必ずここで終了
   if (memoryCardListLength === 0) {
     const newMemoryCard = [...memoryCardList, firstCard, secondCard]
     set(cpuAtom, {
