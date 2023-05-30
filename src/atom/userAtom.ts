@@ -81,3 +81,14 @@ export const checkIsNotPairCardInMemoryAtom = atom(null, (get, set, secondCard: 
     memoryCardList: newMemoryCard,
   })
 })
+
+export const addUserCardListAtom = atom(null, (get, set, firstCard: CardType, secondCard:CardType) => {
+  const newCpuCardList = {
+    first: firstCard,
+    second: secondCard,
+  }
+  set(userAtom, {
+    ...get(userAtom),
+    userCardList: [...get(userAtom).userCardList, newCpuCardList],
+  })
+})

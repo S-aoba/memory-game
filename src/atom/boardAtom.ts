@@ -90,13 +90,13 @@ export const setCardStatusToNullAtom = atom(null, (get, set, firstCard: CardType
   })
 })
 
-export const setCardStatusToCloseAtom = atom(null, (get, set, firstCard: CardType, secondCard?: CardType) => {
+export const setCardStatusToCloseAtom = atom(null, (get, set, firstCard: CardType, secondCard: CardType) => {
   const currentCardList = get(boardAtom).cardList
 
   const newCardList = currentCardList.map((card: CardType) => {
     if (
       (card.id === firstCard.id && card.mark === firstCard.mark) ||
-      (card.id === secondCard?.id && card.mark === secondCard?.mark)
+      (card.id === secondCard.id && card.mark === secondCard.mark)
     ) {
       return {
         ...card,

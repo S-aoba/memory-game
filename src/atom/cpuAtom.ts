@@ -23,3 +23,14 @@ export const resetMemoryAtom = atom(null, (get, set) => {
     memoryCardList: [],
   })
 })
+
+export const addCpuCardListAtom = atom(null, (get, set, firstCard: CardType, secondCard: CardType) => {
+  const newCpuCardList = {
+    first: firstCard,
+    second: secondCard,
+  }
+  set(cpuAtom, {
+    ...get(cpuAtom),
+    cpuCardList: [...get(cpuAtom).cpuCardList, newCpuCardList],
+  })
+})

@@ -7,9 +7,10 @@ import {
   setCardStatusToNullAtom,
   setCardStatusToOpenAtom,
 } from '@/atom/boardAtom'
-import { cpuAtom, removeCardInMemoryAtom, resetMemoryAtom } from '@/atom/cpuAtom'
+import { addCpuCardListAtom, cpuAtom, removeCardInMemoryAtom, resetMemoryAtom } from '@/atom/cpuAtom'
 import {
   addSelectedCardAtom,
+  addUserCardListAtom,
   checkIsNotPairCardInMemoryAtom,
   checkPairCardInMemoryAtom,
   resetSelectedCardAto,
@@ -30,6 +31,7 @@ export const useEasyMode = () => {
   const resetSelectedCard = useSetAtom(resetSelectedCardAto)
   const checkPairCardInMemory = useSetAtom(checkPairCardInMemoryAtom)
   const checkIsNotPairCardInMemory = useSetAtom(checkIsNotPairCardInMemoryAtom)
+  const addUserCardList = useSetAtom(addUserCardListAtom)
 
   const setCardStatusToOpen = useSetAtom(setCardStatusToOpenAtom)
   const setCardStatusToNull = useSetAtom(setCardStatusToNullAtom)
@@ -37,6 +39,7 @@ export const useEasyMode = () => {
 
   const removeCardInMemory = useSetAtom(removeCardInMemoryAtom)
   const resetMemory = useSetAtom(resetMemoryAtom)
+  const addCpuCardList = useSetAtom(addCpuCardListAtom)
 
   const changeTurn = useSetAtom(changeTurnAtom)
 
@@ -59,6 +62,7 @@ export const useEasyMode = () => {
     if (isPair) {
       await waitSeconds(1200)
       setCardStatusToNull(selectedCard, secondCard)
+      addUserCardList(selectedCard, secondCard)
       checkPairCardInMemory(secondCard)
       resetSelectedCard()
       return
@@ -77,28 +81,124 @@ export const useEasyMode = () => {
     })
 
     const memoryCardListLength = memoryCardList.length
+
+    // FirstCard(memoryCardList === 0)
     if (memoryCardListLength === 0) {
       const randomFirstCardIndex = Math.floor(Math.random() * currentCardList.length)
       const firstCard = currentCardList[randomFirstCardIndex]
       await waitSeconds(1200)
       flipAudio.play()
       setCardStatusToOpen(firstCard)
-      await waitSeconds(1000)
+
+      // 2枚目のカードを取得(memoryCardList === 0)
+      const remainCardList = currentCardList.filter((card: CardType) => {
+        return card !== firstCard
+      })
+      const randomSecondCardIndex = Math.floor(Math.random() * remainCardList.length)
+      const secondCard = remainCardList[randomSecondCardIndex]
+      if (firstCard.id === secondCard.id) {
+        await waitSeconds(1200)
+        flipAudio.play()
+        setCardStatusToOpen(secondCard)
+
+        // カートクローズ
+        await waitSeconds(1200)
+        setCardStatusToNull(firstCard, secondCard)
+        addCpuCardList(firstCard, secondCard)
+
+        resetMemory()
+        await waitSeconds(1200)
+        changeTurn()
+        return
+      }
+
+      //カードオープン
+      await waitSeconds(1200)
+      flipAudio.play()
+      setCardStatusToOpen(secondCard)
+
+      // カートクローズ
+      await waitSeconds(1200)
+      setCardStatusToClose(firstCard, secondCard)
+
+      // ターンチェンジ
+      await waitSeconds(1200)
       changeTurn()
       return
     }
-    const remainCardList = currentCardList.filter((card: CardType) => {
+
+    // FirstCard(memoryCardList > 0)
+    const removeDuplicationFirstCardList = currentCardList.filter((card: CardType) => {
       return !memoryCardList.some((memoryCard: CardType) => {
         return card.id === memoryCard.id && card.mark === memoryCard.mark
       })
     })
-    const randomFirstCardIndex = Math.floor(Math.random() * remainCardList.length)
-    const firstCard = remainCardList[randomFirstCardIndex]
+    const randomFirstCardIndex = Math.floor(Math.random() * removeDuplicationFirstCardList.length)
+    const firstCard = removeDuplicationFirstCardList[randomFirstCardIndex]
     await waitSeconds(1200)
     flipAudio.play()
     setCardStatusToOpen(firstCard)
+
+    // 2枚目のカードを取得(memoryCardList > 0)
+    const isPairInMemory = memoryCardList.find((memoryCard: CardType) => {
+      return memoryCard.id === firstCard.id && memoryCard.mark !== firstCard.mark
+    })
+
+    if (isPairInMemory) {
+      await waitSeconds(1200)
+      flipAudio.play()
+      setCardStatusToOpen(isPairInMemory)
+
+      await waitSeconds(1200)
+      setCardStatusToNull(firstCard, isPairInMemory)
+      addCpuCardList(firstCard, isPairInMemory)
+
+      removeCardInMemory(firstCard)
+      resetMemory()
+      await waitSeconds(1200)
+      changeTurn()
+      return
+    }
+    const remainCardList = currentCardList.filter((card: CardType) => {
+      return card !== firstCard
+    })
+
+    const removeDuplicationSecondCardList = remainCardList.filter((card: CardType) => {
+      return !memoryCardList.some((memoryCard: CardType) => {
+        return card === memoryCard
+      })
+    })
+
+    const randomSecondCardIndex = Math.floor(Math.random() * removeDuplicationSecondCardList.length)
+    const secondCard = removeDuplicationSecondCardList[randomSecondCardIndex]
+
+    if (firstCard.id === secondCard.id) {
+      await waitSeconds(1200)
+      flipAudio.play()
+      setCardStatusToOpen(secondCard)
+
+      // カートクローズ
+      await waitSeconds(1200)
+      setCardStatusToNull(firstCard, secondCard)
+      addCpuCardList(firstCard, secondCard)
+
+      resetMemory()
+      await waitSeconds(1200)
+      changeTurn()
+      return
+    }
+
+    // カードオープン
+    await waitSeconds(1200)
+    flipAudio.play()
+    setCardStatusToOpen(secondCard)
+
+    // カートクローズ
+    await waitSeconds(1200)
+    setCardStatusToClose(firstCard, secondCard)
+
     resetMemory()
-    await waitSeconds(1000)
+    await waitSeconds(1200)
     changeTurn()
     return
   }
