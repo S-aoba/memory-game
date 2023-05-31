@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai'
 
-import { boardAtom, changeIsFlipAtom, changeTurnAtom } from '@/atom/boardAtom'
+import { boardAtom, changeTurnAtom, toggleIsFlipAtom } from '@/atom/boardAtom'
 import { userAtom } from '@/atom/userAtom'
 
 import type { CardType } from '../type'
@@ -13,7 +13,7 @@ export const useUserTurn = ({ id, mark, status }: CardType) => {
   const selectedCard = useAtomValue(userAtom).selectedCard
 
   const changeTurn = useSetAtom(changeTurnAtom)
-  const changeIsFlip = useSetAtom(changeIsFlipAtom)
+  const toggleIsFlip = useSetAtom(toggleIsFlipAtom)
 
   const { userFirstTurn, userSecondTurn } = useUser()
   const { waitSeconds } = useTimer()
@@ -31,7 +31,7 @@ export const useUserTurn = ({ id, mark, status }: CardType) => {
     // 2枚目のカードを取得
     const secondCard = { id, mark, status }
     userSecondTurn(secondCard)
-    changeIsFlip()
+    toggleIsFlip()
     await waitSeconds(2000)
     changeTurn()
     return
