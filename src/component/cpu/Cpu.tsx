@@ -3,7 +3,7 @@
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useEffect } from 'react'
 
-import { boardAtom, changeIsFlipAtom } from '@/atom/boardAtom'
+import { boardAtom, toggleIsFlipAtom } from '@/atom/boardAtom'
 import { cpuAtom } from '@/atom/cpuAtom'
 import { useCpu } from '@/common/hook/useCPU'
 
@@ -19,13 +19,13 @@ export const Cpu = () => {
 
   const { cpuTurn } = useCpu()
 
-  const changeIsFlip = useSetAtom(changeIsFlipAtom)
+  const toggleIsFlip = useSetAtom(toggleIsFlipAtom)
 
   useEffect(
     () => {
       if (board.currentTurn === 'cpu') {
         // ユーザーがカードをクリックできないようにする
-        changeIsFlip()
+        toggleIsFlip()
         cpuTurn()
       }
     },
