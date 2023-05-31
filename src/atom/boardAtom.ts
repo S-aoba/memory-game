@@ -41,7 +41,7 @@ export const changeTurnAtom = atom(null, (get, set) => {
   })
 })
 
-export const changeIsFlipAtom = atom(null, (get, set) => {
+export const toggleIsFlipAtom = atom(null, (get, set) => {
   const isFlip = !get(boardAtom).isFlip
   set(boardAtom, {
     ...get(boardAtom),
