@@ -40,6 +40,7 @@ export const removeMatchingCardAtom = atom(null, (get, set, firstCard: CardType,
   const newMemoryCardList = get(cpuAtom).memoryCardList.filter((card: CardType) => {
     return card !== firstCard && card !== secondCard
   })
+
   set(cpuAtom, {
     ...get(cpuAtom),
     memoryCardList: newMemoryCardList,

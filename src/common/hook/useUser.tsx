@@ -55,7 +55,10 @@ export const useUser = () => {
       setCardStatusToNull(selectedCard, secondCard)
       setUserCardList(selectedCard, secondCard)
       setCardAudio.play()
-      if ((memoryCardList.length >= 1 && gameMode === 'normal') || gameMode === 'hard') {
+      if (
+        (memoryCardList.length >= 1 && gameMode === 'normal') ||
+        (memoryCardList.length >= 1 && gameMode === 'hard')
+      ) {
         removeMatchingCard(selectedCard, secondCard)
       }
       resetSelectedCard()
