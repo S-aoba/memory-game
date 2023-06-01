@@ -24,6 +24,7 @@ export const useUserTurn = ({ id, mark, status }: CardType) => {
     // 1枚目のカードを取得
     if (!selectedCard) {
       const firstCard = { id, mark, status }
+      // flipAudio.play()
       userFirstTurn(firstCard)
       return
     }
