@@ -2,6 +2,7 @@ import { useAtomValue, useSetAtom } from 'jotai'
 
 import { boardAtom, changeTurnAtom, setCardStatusToNullAtom } from '@/atom/boardAtom'
 import { cpuAtom, resetMemoryAtom, setCpuCardListAtom } from '@/atom/cpuAtom'
+import { removeMatchingCardAtom } from '@/atom/userAtom'
 
 import { useAudio } from './useAudio'
 import { useCard } from './useCard'
@@ -18,6 +19,9 @@ export const useCpu = () => {
   const memoryCardList = useAtomValue(cpuAtom).memoryCardList
   const setCpuCardList = useSetAtom(setCpuCardListAtom)
   const resetMemory = useSetAtom(resetMemoryAtom)
+
+  // userAtom.ts
+  const removeMatchingCard = useSetAtom(removeMatchingCardAtom)
 
   const { waitSeconds } = useTimer()
 
@@ -43,6 +47,7 @@ export const useCpu = () => {
     }
     const randomFirstCardIndex = Math.floor(Math.random() * remainCardList.length)
     const firstCard = remainCardList[randomFirstCardIndex]
+
     await waitSeconds(1000)
     flipCard(firstCard)
 
@@ -59,13 +64,15 @@ export const useCpu = () => {
         setCardStatusToNull(firstCard, secondCard)
         setCardAudio.play()
         setCpuCardList(firstCard, secondCard)
+        removeMatchingCard(firstCard, secondCard)
 
         await waitSeconds(800)
         changeTurn()
         gameMode === 'easy' && resetMemory()
         return
       }
-      const secondCard = generateRandomSecondCard(nonFirstCardInCloseCardList)
+      const remainCardList = filteredNotInMemory(closeCardList)
+      const secondCard = generateRandomSecondCard(remainCardList)
       await waitSeconds(1000)
       flipCard(secondCard)
       // firstCard, secondCard 比較
@@ -74,10 +81,11 @@ export const useCpu = () => {
       gameMode === 'easy' && resetMemory()
       return
     }
+    // memoryCardListLength === 0
     const secondCard = generateRandomSecondCard(nonFirstCardInCloseCardList)
     await waitSeconds(1000)
     flipCard(secondCard)
-    // firstCard, secondCard 比較
+
     await waitSeconds(1000)
     processCardPair(firstCard, secondCard)
     gameMode === 'easy' && resetMemory()

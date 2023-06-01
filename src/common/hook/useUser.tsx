@@ -64,13 +64,16 @@ export const useUser = () => {
     setCardStatusToClose(selectedCard, secondCard)
     if ((memoryCardList.length === 0 && gameMode === 'easy') || (memoryCardList.length === 0 && gameMode === 'hard')) {
       setMemoryCard(selectedCard, secondCard)
+      resetSelectedCard()
+      return
     } else if (memoryCardList.length >= 1 && gameMode === 'hard') {
       const isExistCard = checkIsExistCard(selectedCard, secondCard)
-      if (isExistCard) return
-      setMemoryCard(selectedCard, secondCard)
+      if (!isExistCard) {
+        setMemoryCard(selectedCard, secondCard)
+      }
+      resetSelectedCard()
+      return
     }
-    resetSelectedCard()
-    return
   }
   return { userFirstTurn, userSecondTurn }
 }

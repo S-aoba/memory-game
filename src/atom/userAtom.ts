@@ -38,10 +38,7 @@ export const setMemoryCardAtom = atom(null, (get, set, firstCard: CardType, seco
 
 export const removeMatchingCardAtom = atom(null, (get, set, firstCard: CardType, secondCard: CardType) => {
   const newMemoryCardList = get(cpuAtom).memoryCardList.filter((card: CardType) => {
-    return (
-      (card.id === firstCard.id && card.mark === firstCard.mark) ||
-      (card.id === secondCard.id && card.mark === secondCard.mark)
-    )
+    return card !== firstCard && card !== secondCard
   })
   set(cpuAtom, {
     ...get(cpuAtom),
