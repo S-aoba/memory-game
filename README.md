@@ -23,3 +23,6 @@ This app is a memory game. and I am making a Concentration app as part of my pro
 ## Next
 - Refactoring
 - Improvement of cpu
+
+## comment
+2023/06/01 一旦開発中止。
