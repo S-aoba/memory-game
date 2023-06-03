@@ -1,9 +1,11 @@
 'use client'
 
 import { useAtomValue } from 'jotai'
+import { useEffect } from 'react'
 
 import { boardAtom } from '@/atom/boardAtom'
 import { userAtom } from '@/atom/userAtom'
+import { useCard } from '@/common/hook/useCard'
 
 import { HandCard } from '../card'
 
@@ -14,6 +16,24 @@ import { HandCard } from '../card'
 export const User = () => {
   const board = useAtomValue(boardAtom)
   const user = useAtomValue(userAtom)
+
+  const { checkIsGameOver, checkWinner } = useCard()
+
+  useEffect(
+    () => {
+      if (board.currentTurn === 'player') {
+        const isGameOver: boolean = checkIsGameOver()
+
+        if (isGameOver) {
+          const winner = checkWinner()
+          alert(`${winner}`)
+          return
+        }
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [board.currentTurn]
+  )
 
   return (
     <div

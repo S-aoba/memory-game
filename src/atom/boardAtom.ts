@@ -3,6 +3,9 @@ import { atom } from 'jotai'
 import { CARD_LIST_DATA } from '@/common/card-data'
 import type { BoardType, CardType } from '@/common/type'
 
+import { cpuAtom } from './cpuAtom'
+import { userAtom } from './userAtom'
+
 export const boardAtom = atom<BoardType>({
   mode: 'easy',
   isFlip: true,
@@ -110,4 +113,30 @@ export const setCardStatusToCloseAtom = atom(null, (get, set, firstCard: CardTyp
     ...get(boardAtom),
     cardList: newCardList,
   })
+})
+
+export const setWinnerAtom = atom(null, (get, set) => {
+  const userCardLength = get(userAtom).userCardList.length
+  const cpuCardLength = get(cpuAtom).cpuCardList.length
+
+  if (userCardLength === cpuCardLength) {
+    set(boardAtom, {
+      ...get(boardAtom),
+      winner: 'draw',
+    })
+  }
+
+  if (userCardLength < cpuCardLength) {
+    set(boardAtom, {
+      ...get(boardAtom),
+      winner: 'cpu',
+    })
+  }
+
+  if (userCardLength > cpuCardLength) {
+    set(boardAtom, {
+      ...get(boardAtom),
+      winner: 'player',
+    })
+  }
 })

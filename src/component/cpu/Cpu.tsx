@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 
 import { boardAtom, toggleIsFlipAtom } from '@/atom/boardAtom'
 import { cpuAtom } from '@/atom/cpuAtom'
+import { useCard } from '@/common/hook/useCard'
 import { useCpu } from '@/common/hook/useCPU'
 
 import { HandCard } from '../card'
@@ -21,9 +22,17 @@ export const Cpu = () => {
 
   const toggleIsFlip = useSetAtom(toggleIsFlipAtom)
 
+  const { checkIsGameOver, checkWinner } = useCard()
+
   useEffect(
     () => {
       if (board.currentTurn === 'cpu') {
+        const isGameOver: boolean = checkIsGameOver()
+        if (isGameOver) {
+          const winner = checkWinner()
+          alert(`${winner}`)
+          return
+        }
         // ユーザーがカードをクリックできないようにする
         toggleIsFlip()
         cpuTurn()

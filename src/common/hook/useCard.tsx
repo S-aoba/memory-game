@@ -6,9 +6,10 @@ import {
   setCardStatusToCloseAtom,
   setCardStatusToNullAtom,
   setCardStatusToOpenAtom,
+  setWinnerAtom,
 } from '@/atom/boardAtom'
 import { cpuAtom, setCpuCardListAtom } from '@/atom/cpuAtom'
-import { setMemoryCardAtom, setSelectedCardAtom } from '@/atom/userAtom'
+import { setMemoryCardAtom, setSelectedCardAtom, userAtom } from '@/atom/userAtom'
 
 import type { CardType } from '../type'
 import { useAudio } from './useAudio'
@@ -16,18 +17,22 @@ import { useTimer } from './useTimer'
 
 export const useCard = () => {
   // boardAtom.ts
+  const board = useAtomValue(boardAtom)
   const currentTurn = useAtomValue(boardAtom).currentTurn
   const gameMode = useAtomValue(boardAtom).mode
   const setCardStatusToOpen = useSetAtom(setCardStatusToOpenAtom)
   const setCardStatusToNull = useSetAtom(setCardStatusToNullAtom)
   const setCardStatusToClose = useSetAtom(setCardStatusToCloseAtom)
   const changeTurn = useSetAtom(changeTurnAtom)
+  const setWinner = useSetAtom(setWinnerAtom)
 
   // cpuAtom.ts
+  const cpu = useAtomValue(cpuAtom)
   const setCpuCardList = useSetAtom(setCpuCardListAtom)
   const memoryCardList = useAtomValue(cpuAtom).memoryCardList
 
   // userAtom.ts
+  const user = useAtomValue(userAtom)
   const setMemoryCard = useSetAtom(setMemoryCardAtom)
   const setSelectedCard = useSetAtom(setSelectedCardAtom)
 
@@ -116,6 +121,27 @@ export const useCard = () => {
     return secondCard
   }
 
+  const checkIsGameOver = (): boolean => {
+    const currentCardList = board.cardList
+    const isGameOver = currentCardList.every((card) => {
+      return card.status === null
+    })
+    return isGameOver
+  }
+
+  const checkWinner = (): 'drawとなりました' | '勝者はcpuです' | '勝者はplayerです' => {
+    setWinner()
+    const userCardLength = user.userCardList.length
+    const cpuCardLength = cpu.cpuCardList.length
+
+    if (userCardLength < cpuCardLength) {
+      return '勝者はcpuです'
+    } else if (userCardLength > cpuCardLength) {
+      return '勝者はplayerです'
+    }
+    return 'drawとなりました'
+  }
+
   return {
     flipCard,
     checkPairCard,
@@ -126,5 +152,7 @@ export const useCard = () => {
     processCardPair,
     generateRandomCard,
     findPairCardInMemory,
+    checkIsGameOver,
+    checkWinner,
   }
 }
