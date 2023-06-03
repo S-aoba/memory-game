@@ -39,6 +39,7 @@ export const useUser = () => {
   const { flipCard, checkPairCard, checkIsExistCard } = useCard()
 
   const userFirstTurn = (firstCard: CardType) => {
+    // console.log('selectedCard', selectedCard)
     flipCard(firstCard)
     return
   }
@@ -52,6 +53,7 @@ export const useUser = () => {
     const isPairCard = checkPairCard(selectedCard, secondCard)
 
     if (isPairCard) {
+      // console.log('やったね！ペアだったよ')
       setCardStatusToNull(selectedCard, secondCard)
       setUserCardList(selectedCard, secondCard)
       setCardAudio.play()
@@ -59,24 +61,36 @@ export const useUser = () => {
         (memoryCardList.length >= 1 && gameMode === 'normal') ||
         (memoryCardList.length >= 1 && gameMode === 'hard')
       ) {
-        removeMatchingCard(selectedCard, secondCard)
+        removeMatchingCard(selectedCard, secondCard) //期待通りの動きしてる
       }
       resetSelectedCard()
       return
     }
+    // console.log('Pairではなかったよ')
     setCardStatusToClose(selectedCard, secondCard)
     if ((memoryCardList.length === 0 && gameMode === 'easy') || (memoryCardList.length === 0 && gameMode === 'hard')) {
       setMemoryCard(selectedCard, secondCard)
       resetSelectedCard()
       return
     } else if (memoryCardList.length >= 1 && gameMode === 'hard') {
-      const isExistCard = checkIsExistCard(selectedCard, secondCard)
-      if (!isExistCard) {
+      const isExistFirstCard = checkIsExistCard(selectedCard)
+      const isExistSecondCard = checkIsExistCard(secondCard)
+
+      if (isExistFirstCard && isExistSecondCard) {
+        resetSelectedCard()
+        return
+      } else if (!isExistFirstCard && !isExistSecondCard) {
         setMemoryCard(selectedCard, secondCard)
+      } else if (isExistFirstCard && !isExistSecondCard) {
+        setMemoryCard(secondCard)
+      } else {
+        setMemoryCard(selectedCard)
       }
       resetSelectedCard()
       return
     }
+    resetSelectedCard()
+    return
   }
   return { userFirstTurn, userSecondTurn }
 }

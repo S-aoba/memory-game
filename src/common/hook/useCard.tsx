@@ -41,26 +41,37 @@ export const useCard = () => {
     currentTurn === 'player' && setSelectedCard(selectedCard)
   }
 
-  const checkIsExistCard = (firstCard: CardType, secondCard: CardType) => {
+  const checkIsExistCard = (targetCard: CardType) => {
     const isExist = memoryCardList.some((memoryCard: CardType) => {
-      return (
-        (memoryCard.id === firstCard.id && memoryCard.mark === firstCard.mark) ||
-        (memoryCard.id === secondCard.id && memoryCard.mark === secondCard.mark)
-      )
+      return targetCard.id === memoryCard.id && targetCard.mark === memoryCard.mark
     })
     return isExist
   }
 
-  const checkIsPairCardInMemory = (firstCard: CardType) => {
+  const findPairCardOfFirstCardInMemory = (firstCard: CardType) => {
     const isExist = memoryCardList.find((memoryCard: CardType) => {
       return memoryCard.id === firstCard.id && memoryCard.mark !== firstCard.mark
     })
     return isExist
   }
 
+  const findPairCardInMemory = () => {
+    // want to fix algorithm
+    const pairCardList: CardType[] | undefined = []
+    memoryCardList.filter((memoryCard: CardType) => {
+      return memoryCardList.filter((targetCard: CardType) => {
+        if (pairCardList.length >= 2) return
+        if (memoryCard.id === targetCard.id && memoryCard.mark !== targetCard.mark) {
+          pairCardList.push(memoryCard, targetCard)
+        }
+      })
+    })
+    return pairCardList
+  }
+
   const removeFirstCardInCloseCardList = (closeCardList: CardType[], firstCard: CardType) => {
     return closeCardList.filter((card) => {
-      return card !== firstCard
+      return !(card.id === firstCard.id && card.mark === firstCard.mark)
     })
   }
 
@@ -80,6 +91,7 @@ export const useCard = () => {
     const isPair = checkPairCard(firstCard, secondCard)
 
     if (isPair) {
+      // console.log("ランダムで選んだ2枚目がペアカードになったよ")
       setCardStatusToNull(firstCard, secondCard)
       setCardAudio.play()
       setCpuCardList(firstCard, secondCard)
@@ -87,6 +99,7 @@ export const useCard = () => {
       await waitSeconds(800)
       changeTurn()
     } else {
+      // console.log("ランダムで選んだ2枚目がペアカードにならなかったよ")
       setCardStatusToClose(firstCard, secondCard)
       if (gameMode === 'normal' || gameMode === 'hard') {
         setMemoryCard(firstCard, secondCard)
@@ -97,7 +110,7 @@ export const useCard = () => {
     }
   }
 
-  const generateRandomSecondCard = (cardList: CardType[]) => {
+  const generateRandomCard = (cardList: CardType[]) => {
     const randomSecondCardIndex = Math.floor(Math.random() * cardList.length)
     const secondCard = cardList[randomSecondCardIndex]
     return secondCard
@@ -107,10 +120,11 @@ export const useCard = () => {
     flipCard,
     checkPairCard,
     checkIsExistCard,
-    checkIsPairCardInMemory,
+    findPairCardOfFirstCardInMemory,
     filteredNotInMemory,
     removeFirstCardInCloseCardList,
     processCardPair,
-    generateRandomSecondCard,
+    generateRandomCard,
+    findPairCardInMemory,
   }
 }

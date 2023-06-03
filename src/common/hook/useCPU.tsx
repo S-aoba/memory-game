@@ -4,6 +4,7 @@ import { boardAtom, changeTurnAtom, setCardStatusToNullAtom } from '@/atom/board
 import { cpuAtom, resetMemoryAtom, setCpuCardListAtom } from '@/atom/cpuAtom'
 import { removeMatchingCardAtom } from '@/atom/userAtom'
 
+import type { CardType } from '../type'
 import { useAudio } from './useAudio'
 import { useCard } from './useCard'
 import { useTimer } from './useTimer'
@@ -27,35 +28,31 @@ export const useCpu = () => {
 
   const {
     flipCard,
-    checkIsPairCardInMemory,
+    findPairCardOfFirstCardInMemory,
     filteredNotInMemory,
     removeFirstCardInCloseCardList,
     processCardPair,
-    generateRandomSecondCard,
+    generateRandomCard,
+    findPairCardInMemory,
   } = useCard()
 
   const { setCardAudio } = useAudio()
 
-  const cpuTurn = async () => {
-    // FirstCpuTurn
-    const closeCardList = cardList.filter((card) => {
-      return card.status === 'close'
-    })
-    let remainCardList = closeCardList
-    if (memoryCardList.length >= 1) {
-      remainCardList = filteredNotInMemory(closeCardList)
-    }
-    const randomFirstCardIndex = Math.floor(Math.random() * remainCardList.length)
-    const firstCard = remainCardList[randomFirstCardIndex]
-
-    await waitSeconds(1000)
+  const firstTurn = (closeCardList: CardType[]) => {
+    // console.log('Oops!, Pair Card is not in MemoryCardList')
+    const remainCardList = filteredNotInMemory(closeCardList)
+    // console.log('remain', remainCardList)
+    const firstCard = generateRandomCard(remainCardList)
     flipCard(firstCard)
+    return firstCard
+  }
 
-    // SecondCpuTurn
+  const secondTurn = async (closeCardList: CardType[], firstCard: CardType) => {
     const nonFirstCardInCloseCardList = removeFirstCardInCloseCardList(closeCardList, firstCard)
     if (memoryCardList.length >= 1) {
-      const isPairCard = checkIsPairCardInMemory(firstCard)
+      const isPairCard = findPairCardOfFirstCardInMemory(firstCard)
       if (isPairCard) {
+        // console.log('ランダムで選んだ1枚目とペアになるカードがmemoryCardListからあったよ')
         const secondCard = isPairCard
         await waitSeconds(800)
         flipCard(secondCard)
@@ -71,8 +68,9 @@ export const useCpu = () => {
         gameMode === 'easy' && resetMemory()
         return
       }
-      const remainCardList = filteredNotInMemory(closeCardList)
-      const secondCard = generateRandomSecondCard(remainCardList)
+      // console.log('ランダムで選んだ1枚目とペアになるカードがmemoryCardListなかった残念泣')
+      const remainCardList = filteredNotInMemory(nonFirstCardInCloseCardList)
+      const secondCard = generateRandomCard(remainCardList)
       await waitSeconds(1000)
       flipCard(secondCard)
       // firstCard, secondCard 比較
@@ -82,14 +80,46 @@ export const useCpu = () => {
       return
     }
     // memoryCardListLength === 0
-    const secondCard = generateRandomSecondCard(nonFirstCardInCloseCardList)
     await waitSeconds(1000)
+    const secondCard = generateRandomCard(nonFirstCardInCloseCardList)
     flipCard(secondCard)
 
     await waitSeconds(1000)
     processCardPair(firstCard, secondCard)
     gameMode === 'easy' && resetMemory()
     return
+  }
+
+  const cpuTurn = async () => {
+    // FirstCpuTurn
+    const closeCardList = cardList.filter((card) => {
+      return card.status === 'close'
+    })
+    await waitSeconds(1000)
+
+    const pairCardInMemory = findPairCardInMemory()
+    if (pairCardInMemory.length >= 1) {
+      // console.log('excellent! Pair Card is in MemoryCardList', pairCardInMemory[0], pairCardInMemory[1])
+      await waitSeconds(800)
+      const firstCard = pairCardInMemory[0]
+      flipCard(firstCard)
+
+      await waitSeconds(800)
+      const secondCard = pairCardInMemory[1]
+      flipCard(secondCard)
+
+      await waitSeconds(800)
+      setCardStatusToNull(firstCard, secondCard)
+      setCardAudio.play()
+      setCpuCardList(firstCard, secondCard)
+      removeMatchingCard(firstCard, secondCard)
+      changeTurn()
+      return
+    }
+    const firstCard = firstTurn(closeCardList)
+
+    // SecondCpuTurn
+    secondTurn(closeCardList, firstCard)
   }
   return { cpuTurn }
 }
