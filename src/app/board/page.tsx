@@ -7,13 +7,13 @@ import { CardList } from '@/component/card/CardList'
 import { Cpu } from '@/component/cpu'
 import { User } from '@/component/user'
 
-export const Board = () => {
+const Board = () => {
   const gameMode = useAtomValue(boardAtom).mode
 
   return (
     <main className='flex h-screen w-screen flex-col items-center bg-gradient-to-b from-slate-200 to-slate-400 pt-20'>
       <div className='w-full p-10 text-center'>
-        <span className='text-3xl font-serif'>{gameMode}</span>
+        <span className='font-serif text-3xl'>{gameMode}</span>
       </div>
       <div className='flex h-full w-full justify-center'>
         <User />
