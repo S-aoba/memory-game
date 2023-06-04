@@ -30,7 +30,13 @@ export default function StartPage() {
       {isStart ? (
         <main className='flex h-screen w-screen flex-col items-center bg-gradient-to-b from-slate-200 to-slate-400 pt-20'>
           <div className='w-full p-10 text-center'>
-            <span className='font-serif text-3xl'>{gameMode}</span>
+            <span
+              className={`font-serif text-3xl ${gameMode === 'easy' && 'text-blue-500'} ${
+                gameMode === 'normal' && 'text-amber-500'
+              } ${gameMode === 'hard' && 'text-red-500'}`}
+            >
+              {gameMode}
+            </span>
           </div>
           <div className='flex h-full w-full justify-center'>
             <User />
