@@ -41,7 +41,7 @@ export const useCard = () => {
   const { waitSeconds } = useTimer()
 
   const flipCard = (selectedCard: CardType) => {
-    flipAudio.play() //何故かときどき音ズレが起きる
+    flipAudio?.play()
     setCardStatusToOpen(selectedCard)
     currentTurn === 'player' && setSelectedCard(selectedCard)
   }
@@ -98,7 +98,7 @@ export const useCard = () => {
     if (isPair) {
       // console.log("ランダムで選んだ2枚目がペアカードになったよ")
       setCardStatusToNull(firstCard, secondCard)
-      setCardAudio.play()
+      setCardAudio?.play()
       setCpuCardList(firstCard, secondCard)
 
       await waitSeconds(800)

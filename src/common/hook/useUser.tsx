@@ -45,7 +45,7 @@ export const useUser = () => {
   }
 
   const userSecondTurn = async (secondCard: CardType) => {
-    flipAudio.play()
+    flipAudio?.play()
     setCardStatusToOpen(secondCard)
 
     await waitSeconds(800)
@@ -56,7 +56,7 @@ export const useUser = () => {
       // console.log('やったね！ペアだったよ')
       setCardStatusToNull(selectedCard, secondCard)
       setUserCardList(selectedCard, secondCard)
-      setCardAudio.play()
+      setCardAudio?.play()
       if (
         (memoryCardList.length >= 1 && gameMode === 'normal') ||
         (memoryCardList.length >= 1 && gameMode === 'hard')

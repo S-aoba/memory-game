@@ -59,7 +59,7 @@ export const useCpu = () => {
 
         await waitSeconds(800)
         setCardStatusToNull(firstCard, secondCard)
-        setCardAudio.play()
+        setCardAudio?.play()
         setCpuCardList(firstCard, secondCard)
         removeMatchingCard(firstCard, secondCard)
 
@@ -110,7 +110,7 @@ export const useCpu = () => {
 
       await waitSeconds(800)
       setCardStatusToNull(firstCard, secondCard)
-      setCardAudio.play()
+      setCardAudio?.play()
       setCpuCardList(firstCard, secondCard)
       removeMatchingCard(firstCard, secondCard)
       changeTurn()
