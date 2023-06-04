@@ -11,7 +11,7 @@ export const CardList = () => {
   return (
     <>
       {board.isGameStart ? (
-        <div className=' grid h-full w-full grid-cols-7 place-content-around place-items-center'>
+        <div className=' grid h-full w-full grid-cols-5 place-content-around place-items-center'>
           {board.cardList.map((card, index) => {
             return <Card key={index} id={card.id} mark={card.mark} status={card.status} />
           })}
